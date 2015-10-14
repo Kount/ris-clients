@@ -61,10 +61,12 @@ module Kount
     # @return [Hash] RIS response formatted into a native hash
     def get_response(request)
       params = prepare_request_params(request)
-      response = RestClient::Resource.new(
-        endpoint,
-        verify_ssl: verify_ssl_option).post params, x_kount_api_key: key
+      response = {}
       begin
+        response = RestClient::Resource.new(
+          endpoint,
+          verify_ssl: verify_ssl_option, timeout: 1).post params, x_kount_api_key: key
+        
         JSON.parse(response)
       rescue
         # RIS errors do not come back as JSON, so just pass them along raw.
