@@ -1,5 +1,5 @@
 # Kount Complete RIS Wrapper
-[![Gem Version](https://badge.fury.io/rb/kount_complete.svg)](http://badge.fury.io/rb/kount_complete)
+[![Gem Version](https://badge.fury.io/rb/kount_complete_2.svg)](https://badge.fury.io/rb/kount_complete_2)
 
 ## Description
 A fork of the official Kount Complete RIS wrapper (that is no longer being maitained). It provides simple methods to execute RIS calls.
@@ -13,7 +13,7 @@ and then easily access new functionality with the original gem as new RIS versio
 
 ## Installation
 
-    gem install kount_complete
+    gem install kount_complete_2
 
 ## Usage
 
