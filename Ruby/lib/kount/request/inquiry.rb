@@ -47,7 +47,7 @@ module Kount
       when 'NONE'
         params.merge!(PTOK: nil, PENC: nil)
       else
-        params[:PENC] = 'NONE'
+        params[:PENC] ||= 'NONE'
       end
     end
 
