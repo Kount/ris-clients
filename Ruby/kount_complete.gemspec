@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'kount_complete'
-  s.version     = '1.0.4'
+  s.version     = '1.0.5'
   s.date        = '2015-05-18'
   s.summary     = "Kount Complete Services Wrapper"
   s.description = "A wrapper to facilitate making Kount RIS calls"
@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.9.3'
 
-  s.add_dependency('rest-client', '~> 1.8', '>= 1.8.0')
+  s.add_dependency('rest-client', '>= 1.8.0', '< 3.0.0')
 
   s.add_development_dependency 'rspec', '~> 0'
 end
