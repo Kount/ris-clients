@@ -34,7 +34,7 @@ module Kount
       params
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength
     def fixup_payment_params(ksalt, merchant_id)
       ptok = params[:PTOK]
       case params[:PTYP]

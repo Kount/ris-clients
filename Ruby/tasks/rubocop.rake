@@ -2,7 +2,7 @@ require 'rubocop/rake_task'
 
 desc 'Run RuboCop on the lib directory'
 RuboCop::RakeTask.new(:rubocop) do |task|
-  task.patterns = ['lib/**/*.rb','spec/**/*.rb']
+  task.patterns = ['lib/**/*.rb']
   # only show the files with failures
   task.formatters = ['simple']
   # don't abort rake on failure

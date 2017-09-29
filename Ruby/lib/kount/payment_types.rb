@@ -3,48 +3,48 @@ module Kount
   # Convenience class to provide a list of PTYP values
   class PaymentTypes
     # Credit card (VISA, MasterCard, Amercian Express, etc)
-    CREDIT_CARD   = 'CARD'
+    CREDIT_CARD   = 'CARD'.freeze
     # PayPal
-    PAYPAL        = 'PYPL'
+    PAYPAL        = 'PYPL'.freeze
     # Check
-    CHECK         = 'CHEK'
+    CHECK         = 'CHEK'.freeze
     # Merchant issued gift card (not the ones with VISA/MC on them)
-    GIFT_CARD     = 'GIFT'
+    GIFT_CARD     = 'GIFT'.freeze
     # Carte Bleue
-    CARTE_BLEUE   = 'CARTE_BLEUE'
+    CARTE_BLEUE   = 'CARTE_BLEUE'.freeze
     # Sofort
-    SOFORT        = 'SOFORT'
+    SOFORT        = 'SOFORT'.freeze
     # Elv
-    ELV           = 'ELV'
+    ELV           = 'ELV'.freeze
     # Poli
-    POLI          = 'POLI'
+    POLI          = 'POLI'.freeze
     # Neteller
-    NETELLER      = 'NETELLER'
+    NETELLER      = 'NETELLER'.freeze
     # Giropay
-    GIROPAY       = 'GIROPAY'
+    GIROPAY       = 'GIROPAY'.freeze
     # BPay
-    BPAY          = 'BPAY'
+    BPAY          = 'BPAY'.freeze
     # Interac
-    INTERAC       = 'INTERAC'
+    INTERAC       = 'INTERAC'.freeze
     # Apple Pay
-    APPLE_PAY     = 'APAY'
+    APPLE_PAY     = 'APAY'.freeze
     # Skrill
-    SKRILL        = 'SKRILL'
+    SKRILL        = 'SKRILL'.freeze
     # Moneybooker (basically another name for Skrill)
-    MONEYBOOKERS  = 'SKRILL'
+    MONEYBOOKERS  = 'SKRILL'.freeze
     # Mercado Pago
-    MERCADO_PAGO  = 'MERCADE_PAGO'
+    MERCADO_PAGO  = 'MERCADE_PAGO'.freeze
     # Bill Me Later
-    BILL_ME_LATER = 'BLML'
+    BILL_ME_LATER = 'BLML'.freeze
     # Google Checkout
-    GOOGLE_CHECKOUT = 'GOOG'
+    GOOGLE_CHECKOUT = 'GOOG'.freeze
     # Green Dot Money Pack
-    GREEN_DOT_MONEY_PACK  =	'GDMP'
+    GREEN_DOT_MONEY_PACK = 'GDMP'.freeze
     # Single Euro Payments Area
-    SINGLE_EURO_PAYMENTS_AREA	=	'SEPA'
+    SINGLE_EURO_PAYMENTS_AREA	=	'SEPA'.freeze
     # None
-    NONE          = 'NONE'
+    NONE          = 'NONE'.freeze
     # Other
-    OTHER         = 'OTHER'
+    OTHER         = 'OTHER'.freeze
   end
 end

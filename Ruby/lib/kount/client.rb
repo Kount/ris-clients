@@ -6,7 +6,6 @@ require 'kount/request/inquiry'
 require 'rest-client'
 require 'uri'
 
-# rubocop:disable Style/ClassVars
 module Kount
   ##
   # This class is where the primary interaction with
@@ -14,16 +13,16 @@ module Kount
   class Client
     # Tells the RIS server to respond in JSON instead of key/value pairs
     # This cannot be overridden.
-    RESPONSE_FORMAT = 'JSON'
+    RESPONSE_FORMAT = 'JSON'.freeze
 
     # RIS Version. Can be overridden my merchant if required.
-    DEFAULT_VERSION = '0630'
+    DEFAULT_VERSION = '0630'.freeze
 
     # Default endpoint for production. Used by the DEFAULT_OPTIONS
-    ENDPOINT_PROD = 'https://risk.kount.net'
+    ENDPOINT_PROD = 'https://risk.kount.net'.freeze
 
     # Default endpoint for test. Used by the TEST_DEFAULT_OPTIONS
-    ENDPOINT_TEST = 'https://risk.test.kount.net'
+    ENDPOINT_TEST = 'https://risk.test.kount.net'.freeze
 
     # Default params for production
     PROD_DEFAULT_OPTIONS = {
@@ -31,14 +30,14 @@ module Kount
       version: DEFAULT_VERSION,
       is_test: false,
       timeout: 10
-    }
+    }.freeze
 
     # Default params for test if is_test is TRUE
     TEST_DEFAULT_OPTIONS = {
       endpoint: ENDPOINT_TEST,
       version: DEFAULT_VERSION,
       timeout: 10
-    }
+    }.freeze
 
     # Initialize a client object
     #
@@ -61,16 +60,19 @@ module Kount
     #
     # @param request [Kount::Request] Kount inquiry or update object
     # @return [Hash] RIS response formatted into a native hash
+    # rubocop:disable Metrics/MethodLength
     def get_response(request)
       params = prepare_request_params(request)
       response = {}
       begin
         response = RestClient::Resource.new(
           endpoint,
-          verify_ssl: verify_ssl_option, timeout: timeout).post params, x_kount_api_key: key
-        
+          verify_ssl: verify_ssl_option,
+          timeout: timeout
+        ).post params, x_kount_api_key: key
+
         JSON.parse(response)
-      rescue
+      rescue StandardError
         # RIS errors do not come back as JSON, so just pass them along raw.
         response
       end

@@ -2,7 +2,6 @@ require 'digest/sha1'
 module Kount
   ##
   # This class implements the Kount KHASH for cards and gift cards.
-  # rubocop:disable Style/Documentation
   class SecurityMash
     # @param plain_text [String] String to be hashed
     # @param ptyp [String] Payment type code: CARD, GIFT, or OTHER
@@ -56,7 +55,7 @@ module Kount
     # @param data [String] Data to hash
     # @param len [int] Length of hash to retain
     # @return [String] Hashed data
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength
     def self.mash(data, len, m)
       a = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       r = Digest::SHA1.hexdigest("#{data}.#{m}")

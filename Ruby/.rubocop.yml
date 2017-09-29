@@ -1,0 +1,7 @@
+AllCops:
+  Exclude:
+    - spec/*
+    - tasks/*
+    - Rakefile
+    - Gemfile
+    - "*.gemspec"
