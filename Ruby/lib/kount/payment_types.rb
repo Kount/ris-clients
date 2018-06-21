@@ -4,6 +4,8 @@ module Kount
   class PaymentTypes
     # Credit card (VISA, MasterCard, Amercian Express, etc)
     CREDIT_CARD   = 'CARD'
+    #Generic Token
+    TOKEN   = 'TOKEN'
     # PayPal
     PAYPAL        = 'PYPL'
     # Check
