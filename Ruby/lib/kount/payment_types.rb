@@ -4,6 +4,8 @@ module Kount
   class PaymentTypes
     # Credit card (VISA, MasterCard, Amercian Express, etc)
     CREDIT_CARD   = 'CARD'.freeze
+    # Generic Token
+    TOKEN   = 'TOKEN'.freeze
     # PayPal
     PAYPAL        = 'PYPL'.freeze
     # Check

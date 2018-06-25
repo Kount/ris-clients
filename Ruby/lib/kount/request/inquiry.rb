@@ -38,7 +38,7 @@ module Kount
     def fixup_payment_params(ksalt, merchant_id)
       ptok = params[:PTOK]
       case params[:PTYP]
-      when 'CARD'
+      when 'CARD', 'TOKEN'
         ptok = Kount::SecurityMash.hash_credit_card(ptok, ksalt)
         params.merge!(PTOK: ptok, PENC: 'KHASH')
       when 'GIFT', 'OTHER'
