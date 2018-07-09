@@ -1,8 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'kount_complete'
-  s.version     = '1.0.5'
+  s.version     = '1.0.6'
   s.summary     = "Kount Complete Services Wrapper"
   s.description = "A wrapper to facilitate making Kount RIS calls"
+  s.email       = 'ruby@kount.com'
   s.authors     = ["Kount"]
   s.files       = Dir.glob("lib/**/*")
   s.homepage    = 'http://rubygems.org/gems/kount_complete'
