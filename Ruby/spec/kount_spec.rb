@@ -11,7 +11,7 @@ describe Kount do
   end
 
   context 'initialized with a merchant id' do
-    subject { Kount.new(merchant_id: '555556') }
+    subject {Kount.new(merchant_id: '555556')}
 
     describe '#merchant_id' do
       it 'returns the initialized value' do
@@ -39,7 +39,7 @@ describe Kount do
   end
 
   context 'initialized with is_test' do
-    subject { Kount.new(is_test: true) }
+    subject {Kount.new(is_test: true)}
 
     describe '#endpoint' do
       it 'returns the default test value' do
@@ -55,7 +55,7 @@ describe Kount do
   end
 
   context 'initialized with custom endpoint' do
-    subject { Kount.new(endpoint: 'https://mycustom.endpoint.com') }
+    subject {Kount.new(endpoint: 'https://mycustom.endpoint.com')}
 
     describe '#endpoint' do
       it 'returns the custom value' do
@@ -73,7 +73,7 @@ describe Kount do
   end
 
   context 'initialized with api key' do
-    subject { Kount.new(key: '1234567890987654321QWERTYUIOP') }
+    subject {Kount.new(key: '1234567890987654321QWERTYUIOP')}
 
     describe '#key' do
       it 'returns the custom value' do

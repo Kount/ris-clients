@@ -1,4 +1,4 @@
-require 'spec_helper'
+require './spec_helper'
 
 # The point of this suite is to test the *preparation* of the RIS call. It is
 # not to validate the behaviour of RIS itself. For that type of test, refer
