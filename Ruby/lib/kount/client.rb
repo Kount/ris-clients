@@ -5,6 +5,7 @@ require 'kount/request/update'
 require 'kount/request/inquiry'
 require 'rest-client'
 require 'uri'
+require 'kount/utils/khash'
 
 # rubocop:disable Style/ClassVars
 module Kount

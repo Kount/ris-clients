@@ -1,4 +1,4 @@
-module Kount
+module Kount 
   class NewKhash
     # @param plain_text [String] String to be hashed
     # @param ptyp [String] Payment type code: CARD, GIFT, or OTHER
