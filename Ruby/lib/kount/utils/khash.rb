@@ -1,5 +1,5 @@
 module Kount 
-  class NewKhash
+  class Khash
     # @param plain_text [String] String to be hashed
     # @param ptyp [String] Payment type code: CARD, GIFT, or OTHER
     # @return [String] KHASH version of string
