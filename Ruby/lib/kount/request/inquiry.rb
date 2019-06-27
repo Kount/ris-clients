@@ -40,14 +40,14 @@ module Kount
       case params[:PTYP]
       when 'CARD', 'TOKEN'
         #ptok = Kount::SecurityMash.hash_credit_card(ptok, ksalt)
-        ptok = Kount::NewKhash.HashPaymentToken(ptok, ksalt)
+        ptok = Kount::Khash.HashPaymentToken(ptok, ksalt)
         params.merge!(PTOK: ptok, PENC: 'KHASH')
       when 'GIFT', 'OTHER'
         #ptok = Kount::SecurityMash.hash_gift_card(ptok, ksalt, merchant_id)
-        ptok = Kount::NewKhash.HashGiftCard(ptok, ksalt, merchant_id)
+        ptok = Kount::Khash.HashGiftCard(ptok, ksalt, merchant_id)
         params.merge!(PTOK: ptok, PENC: 'KHASH')
       when 'CHEK', 'OTHER'
-        ptok = Kount::NewKhash.HashCheckPayment(ptok, ksalt)
+        ptok = Kount::Khash.HashCheckPayment(ptok, ksalt)
         params.merge!(PTOK: ptok, PENC: 'KHASH')
       when 'NONE'
         params.merge!(PTOK: nil, PENC: nil)
