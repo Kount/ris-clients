@@ -15,13 +15,13 @@ describe "Test: Khash encode method do" do
     end
     
     describe "Test the HashGiftCard Method for Gift Card type" do
-      it 'Test the HashGiftCard Method for Gift Card type' do
+      it 'Test the HashGiftCard Method for GIFT CARD type' do
         expect(Kount::Khash.HashGiftCard('4111111111111111', '', '900431')).to eq('90043193FBKM1EIVIXVP')
       end
     end
 
     describe "Test the HashCheckPayment Method" do
-      it 'Test the HashGiftCard Method for Gift Card type' do
+      it 'Test the HashCheckPayment Method for CHECK type' do
         expect(Kount::Khash.HashCheckPayment('01234567811111111111111', '')).to eq('012345440GD428TF29K0')
       end
     end
