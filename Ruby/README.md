@@ -94,7 +94,8 @@ convenience method is available on the Request class for adding them.
 The get_response is the first point at which the Kount server is contacted. Everything it needs to provide the response 
 should be included in the inquiry payload. Response format is a native Ruby Hash.
     
-    response = client.get_response(inquiry)
+    #response = client.get_response(inquiry)
+	response = Response::Resp.new(client.get_response(inquiry))
 
 #### Update (MODE U & X)
 
@@ -108,7 +109,8 @@ The default is `MODE: 'U'` for `Kount::Update` so `MODE: 'X'` will need to be ad
         AUTH: "D",
         ORDR: "3458",
         })
-    response = client.get_response(update)
+    #response = client.get_response(update)
+	response = Response::Resp.new(client.get_response(update))
 
 #### Inquiry (MODE J & W)
 
@@ -120,7 +122,8 @@ MODE J and W is the `:CUSTOMER_ID` param.
         MODE: "J",
         CUSTOMER_ID: "Customer 1",
         })
-    response = client.get_response(inquiry)
+    #response = client.get_response(inquiry)
+	response = Response::Resp.new(client.get_response(inquiry))
 
 #### Inquiry (MODE P)
 
@@ -131,7 +134,8 @@ Also required for MODE P is the `:ANID` param instead of the `:CUSTOMER_ID` para
         MODE: "P",
         ANID: "9991230000", # Phone number
         })
-    response = client.get_response(inquiry)
+    #response = client.get_response(inquiry)
+	response = Response::Resp.new(client.get_response(inquiry))
 
 ## KHASH
 #### Convert Credit Card number to KHASH without RIS_KEY or Endpoint configuration
