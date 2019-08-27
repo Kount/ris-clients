@@ -38,7 +38,7 @@ and environment (test, beta, other).
 
 * `:is_test`        _(defaults to `false`)_
 * `:endpoint`   _(defaults to production value)_
-* `:version`        _(defaults "`0630`")_
+* `:version`        _(defaults "`0700`")_
 
 When `:is_test` is omitted or set to `false`, the RIS endpoint will default to production values. When `:is_test` is set to `true`, the RIS endpoint will default to Kount test server settings; however, both endpoints can be overridden if needed.
 
