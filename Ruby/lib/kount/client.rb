@@ -18,7 +18,7 @@ module Kount
     RESPONSE_FORMAT = 'JSON'
 
     # RIS Version. Can be overridden my merchant if required.
-    DEFAULT_VERSION = '0630'
+    DEFAULT_VERSION = '0700'
 
     # Default endpoint for production. Used by the DEFAULT_OPTIONS
     ENDPOINT_PROD = 'https://risk.kount.net'
@@ -67,7 +67,7 @@ module Kount
         response = RestClient::Resource.new(
           endpoint,
           verify_ssl: verify_ssl_option, timeout: 1).post params, x_kount_api_key: key
-        
+
         JSON.parse(response)
       rescue
         # RIS errors do not come back as JSON, so just pass them along raw.
