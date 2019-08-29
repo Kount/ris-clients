@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'kount_complete'
-  s.version     = '1.0.8'
+  s.version     = '1.0.9'
   s.summary     = "Kount Complete Services Wrapper"
   s.description = "A wrapper to facilitate making Kount RIS calls"
   s.email       = 'ruby@kount.com'
