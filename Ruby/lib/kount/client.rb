@@ -7,7 +7,7 @@ require 'rest-client'
 require 'uri'
 require 'kount/utils/khash'
 
-# rubocop:disable Style/ClassVars
+
 module Kount
   ##
   # This class is where the primary interaction with
@@ -30,13 +30,15 @@ module Kount
     PROD_DEFAULT_OPTIONS = {
       endpoint: ENDPOINT_PROD,
       version: DEFAULT_VERSION,
-      is_test: false
+      is_test: false,
+      timeout: 10
     }
 
     # Default params for test if is_test is TRUE
     TEST_DEFAULT_OPTIONS = {
       endpoint: ENDPOINT_TEST,
-      version: DEFAULT_VERSION
+      version: DEFAULT_VERSION,
+      timeout: 10
     }
 
     # Initialize a client object
@@ -66,10 +68,11 @@ module Kount
       begin
         response = RestClient::Resource.new(
           endpoint,
-          verify_ssl: verify_ssl_option, timeout: 1).post params, x_kount_api_key: key
+          verify_ssl: verify_ssl_option, timeout: timeout
+        ).post params, x_kount_api_key: key
 
         JSON.parse(response)
-      rescue
+      rescue StandardError
         # RIS errors do not come back as JSON, so just pass them along raw.
         response
       end

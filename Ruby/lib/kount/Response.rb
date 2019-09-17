@@ -1,6 +1,7 @@
 require 'json'
-module Response
 
+
+module Response
   class Resp
     def initialize(paramlist)
       @paramlist = paramlist
@@ -8,450 +9,336 @@ module Response
     end
 
     def getMode
-      modes = @paramlist["MODE"].to_s()
-      if !modes.empty?
-        return modes
-      end
-
+      modes = @paramlist['MODE'].to_s
+      return modes unless modes.empty?
     end
 
     def getVersion
-      vers = @paramlist["VERS"].to_s()
-      if !vers.empty?
-        return vers
-      end
+      vers = @paramlist['VERS'].to_s
+      return vers unless vers.empty?
     end
 
     def getTransactionId
-      tran = @paramlist["TRAN"].to_s()
-      if !tran.empty?
-        return tran
-      end
+      tran = @paramlist['TRAN'].to_s
+      return tran unless tran.empty?
     end
 
     def getMerchantId
-      merchantid = @paramlist["MERC"].to_s()
-      if !merchantid.empty?
-        return merchantid
-      end
+      merchantid = @paramlist['MERC'].to_s
+      return merchantid unless merchantid.empty?
     end
 
     def getSessionId
-      sessionid = @paramlist["SESS"].to_s()
-      if !sessionid.empty?
-        return sessionid
-      end
+      sessionid = @paramlist['SESS'].to_s
+      return sessionid unless sessionid.empty?
     end
 
     def getOrderNumber
-      orderno = @paramlist["ORDR"].to_s()
-      if !orderno.empty?
-        return orderno
-      end
+      orderno = @paramlist['ORDR'].to_s
+      return orderno unless orderno.empty?
     end
 
     def getSite
-      site = @paramlist["SITE"].to_s()
-      if !site.empty?
-        return site
-      end
+      site = @paramlist['SITE'].to_s
+      return site unless site.empty?
     end
 
     def getAuto
-      auto = @paramlist["AUTO"].to_s()
-      if !auto.empty?
-        return auto
-      end
+      auto = @paramlist['AUTO'].to_s
+      return auto unless auto.empty?
     end
 
     def getScore
-      score = @paramlist["SCOR"].to_s()
-      if !score.empty?
-        return score
-      end
+      score = @paramlist['SCOR'].to_s
+      return score unless score.empty?
     end
 
     def getOmniscore
-      omniscore = @paramlist['OMNISCORE'].to_s()
-      if !omniscore.empty?
-        return omniscore
-      end
+      omniscore = @paramlist['OMNISCORE'].to_s
+      return omniscore unless omniscore.empty?
     end
 
     def getGeox
-      geox = @paramlist["GEOX"].to_s()
-      if !geox.empty?
-        return geox
-      end
+      geox = @paramlist['GEOX'].to_s
+      return geox unless geox.empty?
     end
 
     def getBrand
-      brand = @paramlist["BRND"].to_s()
-      if !brand.empty?
-        return brand
-      end
+      brand = @paramlist['BRND'].to_s
+      return brand unless brand.empty?
     end
 
     def getVelo
-      velo = @paramlist["VELO"].to_s()
-      if !velo.empty?
-        return velo
-      end
+      velo = @paramlist['VELO'].to_s
+      return velo unless velo.empty?
     end
 
     def getVmax
-      vmax = @paramlist["VMAX"].to_s()
-      if !vmax.empty?
-        return vmax
-      end
+      vmax = @paramlist['VMAX'].to_s
+      return vmax unless vmax.empty?
     end
 
     def getNetwork
-      network = @paramlist["NETW"].to_s()
-      if !network.empty?
-        return network
-      end
+      network = @paramlist['NETW'].to_s
+      return network unless network.empty?
     end
 
     def getRegion
-      region = @paramlist["REGN"].to_s()
-      if !region.empty?
-        return region
-      end
+      region = @paramlist['REGN'].to_s
+      return region unless region.empty?
     end
 
     def getKaptcha
-      kapt = @paramlist["KAPT"].to_s()
-      if !kapt.empty?
-        return kapt
-      end
+      kapt = @paramlist['KAPT'].to_s
+      return kapt unless kapt.empty?
     end
 
     def getProxy
-      proxy = @paramlist["PROXY"].to_s()
-      if !proxy.empty?
-        return proxy
-      end
+      proxy = @paramlist['PROXY'].to_s
+      return proxy unless proxy.empty?
     end
 
     def getEmails
-      email = @paramlist["EMAILS"].to_s()
-      if !email.empty?
-        return email
-      end
+      email = @paramlist['EMAILS'].to_s
+      return email unless email.empty?
     end
 
     def getHttpCountry
-      httmcountry = @paramlist["HTTP_COUNTRY"].to_s()
-      if !httmcountry.empty?
-        return httmcountry
-      end
+      httmcountry = @paramlist['HTTP_COUNTRY'].to_s
+      return httmcountry unless httmcountry.empty?
     end
 
     def getTimeZone
-      timezone = @paramlist["TIMEZONE"].to_s()
-      if !timezone.empty?
-        return timezone
-      end
+      timezone = @paramlist['TIMEZONE'].to_s
+      return timezone unless timezone.empty?
     end
 
     def getCards
-      cards = @paramlist["CARDS"].to_s()
-      if !cards.empty?
-        return cards
-      end
+      cards = @paramlist['CARDS'].to_s
+      return cards unless cards.empty?
     end
 
     def getPcRemote
-      pcremote = @paramlist["PC_REMOTE"].to_s()
-      if !pcremote.empty?
-        return pcremote
-      end
+      pcremote = @paramlist['PC_REMOTE'].to_s
+      return pcremote unless pcremote.empty?
     end
 
     def getDevices
-      devices = @paramlist["DEVICES"].to_s()
-      if !devices.empty?
-        return devices
-      end
+      devices = @paramlist['DEVICES'].to_s
+      return devices unless devices.empty?
     end
 
     def getDeviceLayers
-      device_layers = @paramlist["DEVICE_LAYERS"].to_s()
-      if !device_layers.empty?
-        return device_layers
-      end
+      device_layers = @paramlist['DEVICE_LAYERS'].to_s
+      return device_layers unless device_layers.empty?
     end
 
     def getMobileForwarder
-      mobile_forwarder = @paramlist["MOBILE_FORWARDER"].to_s()
-      if !mobile_forwarder.empty?
-        return mobile_forwarder
-      end
+      mobile_forwarder = @paramlist['MOBILE_FORWARDER'].to_s
+      return mobile_forwarder unless mobile_forwarder.empty?
     end
 
     def getVoiceDevice
-      voicedevice = @paramlist["VOICE_DEVICE"].to_s()
-      if !voicedevice.empty?
-        return voicedevice
-      end
+      voicedevice = @paramlist['VOICE_DEVICE'].to_s
+      return voicedevice unless voicedevice.empty?
     end
 
     def getLocalTime
-      localtime = @paramlist["LOCALTIME"].to_s()
-      if !localtime.empty?
-        return localtime
-      end
+      localtime = @paramlist['LOCALTIME'].to_s
+      return localtime unless localtime.empty?
     end
 
     def getMobileType
-      mobiletype = @paramlist["MOBILE_TYPE"].to_s()
-      if !mobiletype.empty?
-        return mobiletype
-      end
+      mobiletype = @paramlist['MOBILE_TYPE'].to_s
+      return mobiletype unless mobiletype.empty?
     end
 
     def getFingerPrint
-      fingerprint = @paramlist["FINGERPRINT"].to_s()
-      if !fingerprint.empty?
-        return fingerprint
-      end
+      fingerprint = @paramlist['FINGERPRINT'].to_s
+      return fingerprint unless fingerprint.empty?
     end
 
     def getFlash
-      flash = @paramlist["FLASH"].to_s()
-      if !flash.empty?
-        return flash
-      end
+      flash = @paramlist['FLASH'].to_s
+      return flash unless flash.empty?
     end
 
     def getLanguage
-      language = @paramlist["LANGUAGE"].to_s()
-      if !language.empty?
-        return language
-      end
+      language = @paramlist['LANGUAGE'].to_s
+      return language unless language.empty?
     end
 
     def getCountry
-      country = @paramlist["COUNTRY"].to_s()
-      if !country.empty?
-        return country
-      end
+      country = @paramlist['COUNTRY'].to_s
+      return country unless country.empty?
     end
 
     def getJavaScript
-      javascript = @paramlist["JAVASCRIPT"].to_s()
-      if !javascript.empty?
-        return javascript
-      end
+      javascript = @paramlist['JAVASCRIPT'].to_s
+      return javascript unless javascript.empty?
     end
 
     def getCookies
-      cookie = @paramlist["COOKIES"].to_s()
-      if !cookie.empty?
-        return cookie
-      end
+      cookie = @paramlist['COOKIES'].to_s
+      return cookie unless cookie.empty?
     end
 
     def getMobileDevice
-      mobiledevice = @paramlist["MOBILE_DEVICE"].to_s()
-      if !mobiledevice.empty?
-        return mobiledevice
-      end
+      mobiledevice = @paramlist['MOBILE_DEVICE'].to_s
+      return mobiledevice unless mobiledevice.empty?
     end
 
     def getPiercedIPAddress
-      pip_address = @paramlist["PIP_IPAD"].to_s()
-      if !pip_address.empty?
-        return pip_address
-      end
+      pip_address = @paramlist['PIP_IPAD'].to_s
+      return pip_address unless pip_address.empty?
     end
 
     def getPiercedIPAddressLatitude
-      pip_lat = @paramlist["PIP_LAT"].to_s()
-      if !pip_lat.empty?
-        return pip_lat
-      end
+      pip_lat = @paramlist['PIP_LAT'].to_s
+      return pip_lat unless pip_lat.empty?
     end
 
     def getPiercedIPAddressLongitude
-      pip_long = @paramlist["PIP_LON"].to_s()
-      if !pip_long.empty?
-        return pip_long
-      end
+      pip_long = @paramlist['PIP_LON'].to_s
+      return pip_long unless pip_long.empty?
     end
 
     def getPiercedIPAddressCountry
-      pip_country = @paramlist["PIP_COUNTRY"].to_s()
-      if !pip_country.empty?
-        return pip_country
-      end
+      pip_country = @paramlist['PIP_COUNTRY'].to_s
+      return pip_country unless pip_country.empty?
     end
 
     def getPiercedIPAddressRegion
-      pip_region = @paramlist["PIP_REGION"].to_s()
-      if !pip_region.empty?
-        return pip_region
-      end
+      pip_region = @paramlist['PIP_REGION'].to_s
+      return pip_region unless pip_region.empty?
     end
 
     def getPiercedIPAddressCity
-      pip_city = @paramlist["PIP_CITY"].to_s()
-      if !pip_city.empty?
-        return pip_city
-      end
+      pip_city = @paramlist['PIP_CITY'].to_s
+      return pip_city unless pip_city.empty?
     end
 
     def getPiercedIPAddressOrganization
-      pip_org = @paramlist["PIP_ORG"].to_s()
-      if !pip_org.empty?
-        return pip_org
-      end
+      pip_org = @paramlist['PIP_ORG'].to_s
+      return pip_org unless pip_org.empty?
     end
 
     def getIPAddress
-      ip_ipad = @paramlist["IP_IPAD"].to_s()
-      if !ip_ipad.empty?
-        return ip_ipad
-      end
+      ip_ipad = @paramlist['IP_IPAD'].to_s
+      return ip_ipad unless ip_ipad.empty?
     end
 
     def getIPAddressLatitude
-      ip_lat = @paramlist["IP_LAT"].to_s()
-      if !ip_lat.empty?
-        return ip_lat
-      end
+      ip_lat = @paramlist['IP_LAT'].to_s
+      return ip_lat unless ip_lat.empty?
     end
 
     def getIPAddressLongitude
-      ip_long = @paramlist["IP_LON"].to_s()
-      if !ip_long.empty?
-        return ip_long
-      end
+      ip_long = @paramlist['IP_LON'].to_s
+      return ip_long unless ip_long.empty?
     end
 
     def getIPAddressCountry
-      ip_country = @paramlist["IP_COUNTRY"].to_s()
-      if !ip_country.empty?
-        return ip_country
-      end
+      ip_country = @paramlist['IP_COUNTRY'].to_s
+      return ip_country unless ip_country.empty?
     end
 
     def getIPAddressRegion
-      ip_region = @paramlist["IP_REGION"].to_s()
-      if !ip_region.empty?
-        return ip_region
-      end
+      ip_region = @paramlist['IP_REGION'].to_s
+      return ip_region unless ip_region.empty?
     end
 
     def getIPAddressCity
-      ip_city = @paramlist["IP_CITY"].to_s()
-      if !ip_city.empty?
-        return ip_city
-      end
+      ip_city = @paramlist['IP_CITY'].to_s
+      return ip_city unless ip_city.empty?
     end
 
     def getIPAddressOrganization
-      ip_org = @paramlist["IP_ORG"].to_s()
-      if !ip_org.empty?
-        return ip_org
-      end
+      ip_org = @paramlist['IP_ORG'].to_s
+      return ip_org unless ip_org.empty?
     end
 
     def getDateDeviceFirstSeen
-      ddfs = @paramlist["DDFS"].to_s()
-      if !ddfs.empty?
-        return ddfs
-      end
+      ddfs = @paramlist['DDFS'].to_s
+      return ddfs unless ddfs.empty?
     end
 
     def getUserAgentString
-      user_agent = @paramlist["UAS"].to_s()
-      if !user_agent.empty?
-        return user_agent
-      end
+      user_agent = @paramlist['UAS'].to_s
+      return user_agent unless user_agent.empty?
     end
 
     def getDeviceScreenResolution
-      dsr = @paramlist["DSR"].to_s()
-      if !dsr.empty?
-        return dsr
-      end
+      dsr = @paramlist['DSR'].to_s
+      return dsr unless dsr.empty?
     end
 
     def getOS
-      os = @paramlist["OS"].to_s()
-      if !os.empty?
-        return os
-      end
+      os = @paramlist['OS'].to_s
+      return os unless os.empty?
     end
 
     def getBrowser
-      browser = @paramlist["BROWSER"].to_s()
-      if !browser.empty?
-        return browser
-      end
+      browser = @paramlist['BROWSER'].to_s
+      return browser unless browser.empty?
     end
 
     def getNumberRulesTriggered
-      no_rules_triggered = @paramlist["RULES_TRIGGERED"].to_s()
-      return no_rules_triggered
+      no_rules_triggered = @paramlist['RULES_TRIGGERED'].to_s
+      no_rules_triggered
     end
 
     def getRulesTriggered
-      rules_count = getNumberRulesTriggered()
-      rules = Array.new
-      for i in 0..rules_count.to_i()-1
+      rules_count = getNumberRulesTriggered
+      rules = []
+      (0..rules_count.to_i - 1).each do |i|
         ruleid = @paramlist["RULE_ID_#{i}"]
-        rules[ruleid.to_i()] = @paramlist["RULE_DESCRIPTION_#{i}"]
+        rules[ruleid.to_i] = @paramlist["RULE_DESCRIPTION_#{i}"]
       end
-      return rules.compact
-
+      rules.compact
     end
 
     def getWarningCount
-      warning_count = @paramlist["WARNING_COUNT"].to_s()
-      return warning_count
+      warning_count = @paramlist['WARNING_COUNT'].to_s
+      warning_count
     end
 
     def getWarnings
-      warnings = Array.new
-      warningcount = getWarningCount()
-      for i in 0..warningcount.to_i()-1
+      warnings = []
+      warningcount = getWarningCount
+      (0..warningcount.to_i - 1).each do |i|
         warnings = @paramlist["WARNING_#{i}"]
       end
-      return warnings.compact
+      warnings.compact
     end
 
     def getErrorCount
-      errorcount = @paramlist["ERROR_COUNT"].to_s()
-      return errorcount
+      errorcount = @paramlist['ERROR_COUNT'].to_s
+      errorcount
     end
 
     def getErrors
-      errors = Array.new
-      error_count = getErrorCount()
-      for i in 0..error_count.to_i()-1
+      errors = []
+      error_count = getErrorCount
+      (0..error_count.to_i - 1).each do |i|
         errors = @paramlist["ERROR_#{i}"]
       end
-      return errors.compact
+      errors.compact
     end
 
     def getNumberCountersTriggered
-      count_triggered = @paramlist["COUNTERS_TRIGGERED"].to_s()
-      return count_triggered
+      count_triggered = @paramlist['COUNTERS_TRIGGERED'].to_s
+      count_triggered
     end
 
     def getCountersTriggered
-      counters = Array.new
-      numCounters = getCountersTriggered()
-      for i in 0..counters.to_i()-1
+      counters = []
+      numCounters = getCountersTriggered
+      (0..counters.to_i - 1).each do |i|
         countername = @paramlist["COUNTER_NAME_#{i}"]
-        counters[countername.to_s()] = @paramlist["COUNTER_VALUE_#{i}"]
+        counters[countername.to_s] = @paramlist["COUNTER_VALUE_#{i}"]
       end
-      return counters.compact
+      counters.compact
     end
-
   end
-
 end
