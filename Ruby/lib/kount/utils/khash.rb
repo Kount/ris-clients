@@ -13,7 +13,7 @@ module Kount
       end
     end
 
-    def self.getKhash(data, len, m)
+    def self.getkhash(data, len, m)
       a = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
       r = Digest::SHA1.hexdigest("#{data}.#{m}")
       c = ''
@@ -27,20 +27,20 @@ module Kount
       c
     end
 
-    def self.HashPaymentToken(plain_text, ksalt)
+    def self.hash_payment_token(plain_text, ksalt)
       first_six = plain_text[0..5]
-      mashed = getKhash(plain_text, 14, ksalt)
+      mashed = getkhash(plain_text, 14, ksalt)
       "#{first_six}#{mashed}"
     end
 
-    def self.HashCheckPayment(plain_text, ksalt)
+    def self.hash_check_payment(plain_text, ksalt)
       first_six = plain_text[0..5]
-      mashed = getKhash(plain_text, 14, ksalt)
+      mashed = getkhash(plain_text, 14, ksalt)
       "#{first_six}#{mashed}"
     end
 
-    def self.HashGiftCard(plain_text, ksalt, merchant_id)
-      mashed = getKhash(plain_text, 14, ksalt)
+    def self.hash_gift_card(plain_text, ksalt, merchant_id)
+      mashed = getkhash(plain_text, 14, ksalt)
       "#{merchant_id}#{mashed}"
     end
   end

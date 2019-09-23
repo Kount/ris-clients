@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = '>= 1.3.5'
 
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.3'
 
   s.add_dependency 'rest-client', '>= 1.8.0', '< 3.0.0'
 
