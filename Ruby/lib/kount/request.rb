@@ -12,7 +12,7 @@ module Kount
     #
     # @param initial_params [Hash] Initial params for request
     def initialize(initial_params = {})
-      fail "Cannot directly instantiate a #{self.class}." if
+      raise "Cannot directly instantiate a #{self.class}." if
         self.class == Request
       @params = initial_params
     end
