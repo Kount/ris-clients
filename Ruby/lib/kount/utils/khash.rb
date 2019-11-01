@@ -28,12 +28,14 @@ module Kount
     end
 
     def self.hash_payment_token(plain_text, ksalt)
+      return plain_text if khashed?(plain_text)
       first_six = plain_text[0..5]
       mashed = getkhash(plain_text, 14, ksalt)
       "#{first_six}#{mashed}"
     end
 
     def self.hash_check_payment(plain_text, ksalt)
+      return plain_text if khashed?(plain_text)
       first_six = plain_text[0..5]
       mashed = getkhash(plain_text, 14, ksalt)
       "#{first_six}#{mashed}"
@@ -43,5 +45,12 @@ module Kount
       mashed = getkhash(plain_text, 14, ksalt)
       "#{merchant_id}#{mashed}"
     end
+
+    # @param val [String] Token that may or may not be khashed
+    # @return [Boolean] True if token is already khashed
+    def self.khashed?(val)
+      true if val =~ /(\d{6}[A-Z0-9]{14})/
+    end
+
   end
 end
