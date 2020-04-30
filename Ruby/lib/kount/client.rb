@@ -68,7 +68,7 @@ module Kount
       begin
         response = RestClient::Resource.new(
           endpoint,
-          verify_ssl: verify_ssl_option, timeout: 1
+          verify_ssl: verify_ssl_option, timeout: 10
         ).post params, x_kount_api_key: key
 
         JSON.parse(response)
