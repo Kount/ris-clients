@@ -68,7 +68,7 @@ module Kount
       begin
         response = RestClient::Resource.new(
           endpoint,
-          verify_ssl: verify_ssl_option, timeout: 1
+          verify_ssl: verify_ssl_option, timeout: timeout
         ).post params, x_kount_api_key: key
 
         JSON.parse(response)
@@ -97,6 +97,11 @@ module Kount
     # RIS Endpoint URL
     def endpoint
       @options[:endpoint]
+    end
+
+    # Timeout settings
+    def timeout
+      @options[:timeout]
     end
 
     # Merchant API for RIS acess
