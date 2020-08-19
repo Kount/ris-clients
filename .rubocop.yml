@@ -68,6 +68,10 @@ Style/StringLiterals:
 Naming/MethodParameterName:
   MinNameLength: 1
 
+# disable Extra empty line detection
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
 # disable Class length warning
 Metrics/ClassLength:
   Enabled: false
