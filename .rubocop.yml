@@ -21,7 +21,7 @@ Layout/ExtraSpacing:
   Enabled: false
 
 # for disabling 'Final new line missing' warning.
-Layout/TrailingBlankLines:
+Layout/TrailingEmptyLines:
   Enabled: false
 
 # for disabling 'Carriage return character missing.' warning
@@ -37,7 +37,7 @@ Style/PercentLiteralDelimiters:
   Enabled: false
 
 # for disabling the warning about 'Only use lowercase characters for block parameter'
-Naming/UncommunicativeBlockParamName:
+Naming/BlockParameterName:
   Enabled: false
 
 # for disabling the warning about - 'The closing array brace must be on the same line as the last array element when the opening brace is on the same line as the first array element'
@@ -65,7 +65,7 @@ Style/StringLiterals:
   Enabled: false
 
 # set minimum length for method parameter
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   MinNameLength: 1
 
 # disable Class length warning
@@ -89,11 +89,11 @@ Layout/SpaceAroundOperators:
   Enabled: false
 
 # disable warning about tab
-Layout/Tab:
+Layout/IndentationStyle:
   Enabled: false
 
 #  Unnecessary disabling of Metrics/MethodLength
-Lint/UnneededCopDisableDirective:
+Lint/RedundantCopDisableDirective:
   Enabled: false
 
 # Disable the warning about - gem shoul be in alphabetical order
