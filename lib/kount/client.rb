@@ -72,9 +72,6 @@ module Kount
         ).post params, x_kount_api_key: key
 
         JSON.parse(response)
-      rescue StandardError
-        # RIS errors do not come back as JSON, so just pass them along raw.
-        response
       end
     end
 
