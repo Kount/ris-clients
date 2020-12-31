@@ -24,13 +24,11 @@ module Kount
     # @param ksalt [String] Kount supplied secret salt for KHASH
     def prepare_params(version, merchant_id, response_format, ksalt)
       super(version, merchant_id, response_format, ksalt)
-      begin
-        params.merge! collect_cart_items
-        # The Kount::Request has no knowledge of the KSALT or merchant_id, both
-        # of which are needed for KHASH. Request form params have everything we
-        # need at this point to do the KHASH if needed.
-        fixup_payment_params(ksalt, merchant_id)
-      end
+      params.merge! collect_cart_items
+      # The Kount::Request has no knowledge of the KSALT or merchant_id, both
+      # of which are needed for KHASH. Request form params have everything we
+      # need at this point to do the KHASH if needed.
+      fixup_payment_params(ksalt, merchant_id)
       params
     end
 

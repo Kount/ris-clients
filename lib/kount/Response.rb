@@ -284,8 +284,8 @@ module Response
     end
 
     def get_numberrules_triggered
-      no_rules_triggered = @paramlist['RULES_TRIGGERED'].to_s
-      no_rules_triggered
+      # changed due to rubocop styling rules for ruby
+      @paramlist['RULES_TRIGGERED'].to_s
     end
 
     def get_rules_triggered
@@ -299,8 +299,8 @@ module Response
     end
 
     def get_warning_count
-      warning_count = @paramlist['WARNING_COUNT'].to_s
-      warning_count
+      # changed due to rubocop styling rules for ruby
+      @paramlist['WARNING_COUNT'].to_s
     end
 
     def get_warnings
@@ -313,8 +313,8 @@ module Response
     end
 
     def get_error_count
-      errorcount = @paramlist['ERROR_COUNT'].to_s
-      errorcount
+      # changed due to rubocop styling rules for ruby
+      @paramlist['ERROR_COUNT'].to_s
     end
 
     def geterrors
@@ -327,8 +327,8 @@ module Response
     end
 
     def get_numbercounters_triggered
-      count_triggered = @paramlist['COUNTERS_TRIGGERED'].to_s
-      count_triggered
+      # changed due to rubocop styling rules for ruby
+      @paramlist['COUNTERS_TRIGGERED'].to_s
     end
 
     def get_counters_triggered

@@ -4,9 +4,12 @@ module Kount
     # @param ptyp [String] Payment type code: CARD, GIFT, or OTHER
     # @return [String] KHASH version of string
     def self.hash_token(plain_text, ptyp, ksalt, merchant_id = '')
-      if ptyp == 'CARD'
+      # changed if-else to case-when to follow ruby coding standard
+
+      case ptyp
+      when 'CARD'
         HashPaymentToken(plain_text, ksalt)
-      elsif ptyp == 'CHEK'
+      when 'CHEK'
         HashCheckPayment(plain_text, ksalt)
       else
         HashGiftCard(plain_text, ksalt, merchant_id)
