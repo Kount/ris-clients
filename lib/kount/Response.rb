@@ -233,6 +233,16 @@ module Response
       return ip_lat unless ip_lat.empty?
     end
 
+    def get_previous_whitelisted
+      whitelisted = @paramlist['PREVIOUSLY_WHITELISTED'].to_s
+      return whitelisted unless whitelisted.empty?
+    end
+
+    def get_secure_merchant_response
+      merchant_response = @paramlist['3D_SECURE_MERCHANT_RESPONSE'].to_s
+      return merchant_response unless merchant_response.empty?
+    end
+
     def get_ipaddress_longitude
       ip_long = @paramlist['IP_LON'].to_s
       return ip_long unless ip_long.empty?
