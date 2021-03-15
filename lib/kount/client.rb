@@ -18,7 +18,7 @@ module Kount
     RESPONSE_FORMAT = 'JSON'
 
     # RIS Version. Can be overridden my merchant if required.
-    DEFAULT_VERSION = '0700'
+    DEFAULT_VERSION = '0710'
 
     # Default endpoint for production. Used by the DEFAULT_OPTIONS
     ENDPOINT_PROD = 'https://risk.kount.net'
