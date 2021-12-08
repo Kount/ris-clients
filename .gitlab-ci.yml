@@ -1,0 +1,40 @@
+image: "ruby:2.5"
+
+stages:
+  - test
+  - rubocop
+  - deploy
+
+before_script:
+  - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-document
+  - bundle install
+  - curl -u $RUBYGEMS_USERNAME:$RUBYGEMS_PASSWORD  https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
+  - chmod 0600 /root/.gem/credentials
+
+
+# test:
+#   stage: test
+#   script:
+#     - bundle exec rake test
+#   only:
+#     - tags
+
+
+# The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
+rubocop:
+  stage: rubocop
+  script:
+    - rubocop
+
+
+
+deploy:
+  stage: deploy
+  script:
+     - bash gem_build.sh
+  only:
+    - tags
+
