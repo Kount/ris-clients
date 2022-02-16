@@ -239,7 +239,7 @@ module Response
     end
 
     def get_secure_merchant_response
-      merchant_response = @paramlist['3D_SECURE_MERCHANT_RESPONSE'].to_s
+      merchant_response = @paramlist['THREE_DS_MERCHANT_RESPONSE'].to_s
       return merchant_response unless merchant_response.empty?
     end
 
