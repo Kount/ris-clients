@@ -1,11 +1,15 @@
 include:
   - project: kount/third_party/tpa-ci-shared
-    file: base/sq-scan.yml
+    file: 
+      - base/sq-scan.yml
+      - core/rules.yml
+      - version.yml
     ref: 2.4.0
 
 image: "ruby:2.5"
 
 stages:
+  - version
   - test
   - sonarqube scan
   - rubocop
@@ -19,6 +23,15 @@ before_script:
   - bundle install
   - curl -u $RUBYGEMS_USERNAME:$RUBYGEMS_PASSWORD  https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
   - chmod 0600 /root/.gem/credentials
+  - |
+    if [ -n "${BUILD_VERSION}" ]
+    then
+      # BUILD_VERSION is cut to 17 characters so SDK_VERSION will not exceed 32 characters in total
+      BUILD_VERSION=`echo $BUILD_VERSION | cut -c-17`
+      echo "sed -i \"s/0.0.0/${BUILD_VERSION}/g\" ${CI_PROJECT_DIR}/lib/kount/client.rb"
+      sed -i "s/0.0.0/${BUILD_VERSION}/g" ${CI_PROJECT_DIR}/lib/kount/client.rb
+      cat test_version/version.rb
+    fi
 
 sonarqube scan:
   extends: .sq-scan
@@ -44,8 +57,8 @@ rubocop:
 
 deploy:
   stage: deploy
+  rules: 
+    - !reference [.rule-on-tag]
   script:
-     - bash gem_build.sh
-  only:
-    - tags
+    - bash gem_build.sh
 

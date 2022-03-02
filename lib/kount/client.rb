@@ -20,6 +20,10 @@ module Kount
     # RIS Version. Can be overridden my merchant if required.
     DEFAULT_VERSION = '0710'
 
+    SDK = 'RUBY'
+
+    SDK_VERSION = '0.0.0'
+
     # Default endpoint for production. Used by the DEFAULT_OPTIONS
     ENDPOINT_PROD = 'https://risk.kount.net'
 
