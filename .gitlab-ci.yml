@@ -4,7 +4,7 @@ include:
       - base/sq-scan.yml
       - core/rules.yml
       - version.yml
-    ref: 2.4.0
+    ref: 2.5.2
 
 image: "ruby:2.5"
 

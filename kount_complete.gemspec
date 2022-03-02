@@ -1,6 +1,8 @@
+require_relative 'lib/kount/client'
+
 Gem::Specification.new do |s|
   s.name        = 'kount_complete'
-  s.version     = '2.0.5'
+  s.version     = Kount::Client::SDK_VERSION
   s.summary     = "Kount Complete Services Wrapper"
   s.description = "A wrapper to facilitate making Kount RIS calls"
   s.email       = 'ruby@kount.com'
