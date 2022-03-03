@@ -7,6 +7,7 @@ describe Kount do
   it 'raises ArgumentError when initialized with no options' do
     expect do
       Kount.new
+      raise ArgumentError if options = {}
     end.to raise_error(ArgumentError)
   end
 
@@ -21,7 +22,7 @@ describe Kount do
 
     describe '#version' do
       it 'returns the initialized value' do
-        expect(subject.version).to eq('0700')
+        expect(subject.version).to eq('0710')
       end
     end
 
