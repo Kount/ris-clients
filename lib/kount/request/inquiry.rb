@@ -18,7 +18,8 @@ module Kount
       # We want Request to default to MODE Q unless a different mode has
       # been passed.
       add_params(MODE: 'Q') unless initial_params.key?(:MODE)
-      add_params(SDK: Kount::Config::SDK, SDK_VERSION: "Sdk-Ris-Ruby-" + Kount::Config::SDK_VERSION)
+      sdkVersionStructure = "Sdk-Ris-Ruby-"
+      add_params(SDK: Kount::Config::SDK, SDK_VERSION: sdkVersionStructure + Kount::Config::SDK_VERSION)
     end
 
     # @param version [String] RIS version
