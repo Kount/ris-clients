@@ -6,7 +6,7 @@ include:
       - version.yml
     ref: 2.5.2
 
-image: "ruby:2.5"
+image: "ruby:3.0"
 
 stages:
   - version
@@ -21,16 +21,17 @@ before_script:
   - which ruby
   - gem install bundler --no-document
   - bundle install
+  - mkdir ~/.gem
+  - echo "---" > ~/.gem/credentials
   - curl -u $RUBYGEMS_USERNAME:$RUBYGEMS_PASSWORD  https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
-  - chmod 0600 /root/.gem/credentials
+  - chmod 0600 ~/.gem/credentials
   - |
     if [ -n "${BUILD_VERSION}" ]
     then
-      # BUILD_VERSION is cut to 17 characters so SDK_VERSION will not exceed 32 characters in total
       BUILD_VERSION=`echo $BUILD_VERSION | cut -c-17`
+      # BUILD_VERSION is cut to 17 characters so SDK_VERSION will not exceed 32 characters in total
       echo "sed -i \"s/0.0.0/${BUILD_VERSION}/g\" ${CI_PROJECT_DIR}/lib/kount/client.rb"
       sed -i "s/0.0.0/${BUILD_VERSION}/g" ${CI_PROJECT_DIR}/lib/kount/client.rb
-      cat test_version/version.rb
     fi
 
 sonarqube scan:
