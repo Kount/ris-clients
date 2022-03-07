@@ -1,4 +1,4 @@
-require_relative 'lib/kount/client'
+require_relative 'kount/client'
 
 Gem::Specification.new do |s|
   s.name        = 'kount_complete'
