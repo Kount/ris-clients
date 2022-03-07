@@ -6,7 +6,7 @@ include:
       - version.yml
     ref: 2.5.2
 
-image: "ruby:3-alpine"
+image: "ruby:3.0"
 
 stages:
   - version
@@ -16,7 +16,6 @@ stages:
   - deploy
 
 before_script:
-  - which apk
   - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
   - ruby -v
   - which ruby
@@ -31,9 +30,16 @@ before_script:
     then
       BUILD_VERSION=`echo $BUILD_VERSION | cut -c-17`
       # BUILD_VERSION is cut to 17 characters so SDK_VERSION will not exceed 32 characters in total
-      echo "sed -i \"s/0.0.0/${BUILD_VERSION}/g\" ${CI_PROJECT_DIR}/lib/kount/client.rb"
-      sed -i "s/0.0.0/${BUILD_VERSION}/g" ${CI_PROJECT_DIR}/lib/kount/client.rb
+      echo "sed -i \"s/0.0.0/${BUILD_VERSION}/g\" ${CI_PROJECT_DIR}/lib/kount/config.rb"
+      sed -i "s/0.0.0/${BUILD_VERSION}/g" ${CI_PROJECT_DIR}/lib/kount/config.rb
     fi
+
+version:
+  extends: version
+  stage: version
+  script:
+    - apt-get install git -y
+    - BUILD_VERSION=$(git describe --tags) || true
 
 sonarqube scan:
   extends: .sq-scan
