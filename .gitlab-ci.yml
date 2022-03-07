@@ -3,7 +3,6 @@ include:
     file: 
       - base/sq-scan.yml
       - core/rules.yml
-      - version.yml
     ref: 2.5.2
 
 image: "ruby:3.0"
@@ -35,7 +34,6 @@ before_script:
     fi
 
 version:
-  extends: version
   stage: version
   script:
     - apt-get install git -y
