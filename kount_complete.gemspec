@@ -1,9 +1,9 @@
 require_relative 'lib/kount/client'
-require 'lib/kount/security_mash'
-require 'lib/kount/cart'
-require 'lib/kount/request'
-require 'lib/kount/request/update'
-require 'lib/kount/utils/khash'
+require 'kount/security_mash'
+require 'kount/cart'
+require 'kount/request'
+require 'kount/request/update'
+require 'kount/utils/khash'
 
 Gem::Specification.new do |s|
   s.name        = 'kount_complete'
