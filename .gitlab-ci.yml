@@ -6,7 +6,7 @@ include:
       - version.yml
     ref: 2.5.2
 
-image: "ruby:3.0"
+image: "ruby:3.1.1-alpine3.14"
 
 stages:
   - version
