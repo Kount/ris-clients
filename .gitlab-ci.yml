@@ -2,6 +2,7 @@ include:
   - project: kount/third_party/tpa-ci-shared
     file: 
       - base/sq-scan.yml
+      - version.yml
       - core/rules.yml
     ref: 2.5.2
 
