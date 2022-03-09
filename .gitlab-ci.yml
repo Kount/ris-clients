@@ -1,24 +1,38 @@
 include:
   - project: kount/third_party/tpa-ci-shared
-    file: base/sq-scan.yml
-    ref: 2.4.0
-
-image: "ruby:2.5"
+    file: 
+      - base/sq-scan.yml
+      - version.yml
+      - core/rules.yml
+    ref: 2.5.2
 
 stages:
+  - version
   - test
   - sonarqube scan
   - rubocop
   - deploy
 
-before_script:
-  - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
-  - ruby -v
-  - which ruby
-  - gem install bundler --no-document
-  - bundle install
-  - curl -u $RUBYGEMS_USERNAME:$RUBYGEMS_PASSWORD  https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
-  - chmod 0600 /root/.gem/credentials
+.ruby:
+  image: ruby:3.0
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
+    - ruby -v
+    - which ruby
+    - gem install bundler --no-document
+    - bundle install
+    - mkdir ~/.gem
+    - echo "---" > ~/.gem/credentials
+    - curl -u $RUBYGEMS_USERNAME:$RUBYGEMS_PASSWORD  https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
+    - chmod 0600 ~/.gem/credentials
+    - |
+      if [ -n "${BUILD_VERSION}" ]
+      then
+        BUILD_VERSION=`echo $BUILD_VERSION | cut -c-17`
+        # BUILD_VERSION is cut to 17 characters so SDK_VERSION will not exceed 32 characters in total
+        echo "sed -i \"s/0.0.0/${BUILD_VERSION}/g\" ${CI_PROJECT_DIR}/lib/kount/config.rb"
+        sed -i "s/0.0.0/${BUILD_VERSION}/g" ${CI_PROJECT_DIR}/lib/kount/config.rb
+      fi
 
 sonarqube scan:
   extends: .sq-scan
@@ -37,6 +51,7 @@ sonarqube scan:
 # The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
 rubocop:
   stage: rubocop
+  extends: .ruby
   script:
     - rubocop
 
@@ -44,8 +59,9 @@ rubocop:
 
 deploy:
   stage: deploy
+  extends: .ruby
+  rules: 
+    - !reference [.rule-on-tag]
   script:
-     - bash gem_build.sh
-  only:
-    - tags
+    - bash gem_build.sh
 

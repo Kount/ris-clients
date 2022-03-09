@@ -1,3 +1,5 @@
+require_relative 'lib/kount/config'
+
 module Kount
   ##
   # This class extends the Request class.
@@ -16,6 +18,8 @@ module Kount
       # We want Request to default to MODE Q unless a different mode has
       # been passed.
       add_params(MODE: 'Q') unless initial_params.key?(:MODE)
+      sdkVersionStructure = "Sdk-Ris-Ruby-"
+      add_params(SDK: Kount::Config::SDK, SDK_VERSION: sdkVersionStructure + Kount::Config::SDK_VERSION)
     end
 
     # @param version [String] RIS version
