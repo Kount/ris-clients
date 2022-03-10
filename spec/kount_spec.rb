@@ -6,8 +6,9 @@ require 'spec_helper'
 describe Kount do
   it 'raises ArgumentError when initialized with no options' do
     expect do
-      Kount.new
-      raise ArgumentError if options = {}
+      options ={}
+      Kount.new(options)
+      raise ArgumentError if options == {}
     end.to raise_error(ArgumentError)
   end
 
