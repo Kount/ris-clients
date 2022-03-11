@@ -20,6 +20,7 @@ module Kount
   #    }
   # @param options Hash
   def new(options = {})
+    raise ArgumentError if options == {}
     Client.new(options)
   end
 
