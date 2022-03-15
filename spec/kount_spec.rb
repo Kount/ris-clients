@@ -4,6 +4,11 @@ require 'spec_helper'
 # the client when initialized. The usage (cart/inquiry/get_response) aspects
 # of the client are covered in the client_spec.rb test suite.
 describe Kount do
+  it 'raises ArgumentError when initialized with no options' do
+    expect do
+      Kount.new
+    end.to raise_error(ArgumentError)
+  end
 
   context 'initialized with a merchant id' do
     subject {Kount.new(merchant_id: '555556')}

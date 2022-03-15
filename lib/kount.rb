@@ -20,6 +20,7 @@ module Kount
   #    }
   # @param options Hash
   def new(options = {})
+    raise ArgumentError,'Config options required' if options.empty?
     Client.new(options)
   end
 
