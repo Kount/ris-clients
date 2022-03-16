@@ -11,7 +11,7 @@ describe Kount do
     subject { Kount.new(merchant_id: '555556') }
     request = Kount::Inquiry.new
     expected = [[:MERC, '555556'],
-                [:VERS, '0700'],
+                [:VERS, '0710'],
                 [:FRMT, 'JSON']
                ]
     describe '#prepare_request' do

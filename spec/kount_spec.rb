@@ -21,7 +21,7 @@ describe Kount do
 
     describe '#version' do
       it 'returns the initialized value' do
-        expect(subject.version).to eq('0700')
+        expect(subject.version).to eq('0710')
       end
     end
 
