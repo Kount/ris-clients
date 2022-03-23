@@ -34,28 +34,28 @@ stages:
         sed -i "s/0.0.0/${BUILD_VERSION}/g" ${CI_PROJECT_DIR}/lib/kount/config.rb
       fi
 
+test:
+  stage: test
+  extends: .ruby
+  script:
+    - bundle exec rake test
+  rules:
+    - !reference [.rule-on-tag]
+    - !reference [.rule-on-master]
+    - !reference [.rule-on-mr]
+
 sonarqube scan:
   extends: .sq-scan
   stage: sonarqube scan
   variables:
     SRC_EXCLUSIONS: "**/build/**,**/vendor/**,**/DS_Store/**,**/idea/**,**/*LICENSE,**/*.gitignore,**/*.yml,**/*.lock"
     
-# test:
-#   stage: test
-#   script:
-#     - bundle exec rake test
-#   only:
-#     - tags
-
-
 # The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
 rubocop:
   stage: rubocop
   extends: .ruby
   script:
     - rubocop
-
-
 
 deploy:
   stage: deploy
@@ -64,4 +64,3 @@ deploy:
     - !reference [.rule-on-tag]
   script:
     - bash gem_build.sh
-

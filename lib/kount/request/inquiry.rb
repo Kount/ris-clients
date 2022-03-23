@@ -1,4 +1,4 @@
-require_relative 'lib/kount/config'
+require_relative '../config'
 
 module Kount
   ##
