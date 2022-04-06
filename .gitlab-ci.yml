@@ -10,8 +10,8 @@ stages:
   - version
   - test
   - sonarqube scan
-  - rubocop
-  - deploy
+  - lint
+  - build and deploy
 
 .ruby:
   image: ruby:3.0
@@ -25,6 +25,7 @@ stages:
     - echo "---" > ~/.gem/credentials
     - curl -u $RUBYGEMS_USERNAME:$RUBYGEMS_PASSWORD  https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials
     - chmod 0600 ~/.gem/credentials
+    - echo BUILD_VERSION=${BUILD_VERSION:-"0.0.0-${CI_COMMIT_SHORT_SHA}"}
     - |
       if [ -n "${BUILD_VERSION}" ]
       then
@@ -51,16 +52,26 @@ sonarqube scan:
     SRC_EXCLUSIONS: "**/build/**,**/vendor/**,**/DS_Store/**,**/idea/**,**/*LICENSE,**/*.gitignore,**/*.yml,**/*.lock"
     
 # The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
-rubocop:
-  stage: rubocop
+lint:
+  stage: lint
   extends: .ruby
+  rules:
+    - !reference [.rule-on-tag]
+    - !reference [.rule-on-master]
+    - !reference [.rule-on-mr]
   script:
     - rubocop
 
-deploy:
-  stage: deploy
+
+
+build and deploy:
+  stage: build and deploy
   extends: .ruby
   rules: 
     - !reference [.rule-on-tag]
   script:
     - bash gem_build.sh
+  artifacts:
+    paths:
+      - "*.gem"
+
