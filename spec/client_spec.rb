@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'base64'
 
 # The point of this suite is to test the *preparation* of the RIS call. It is
 # not to validate the behaviour of RIS itself. For that type of test, refer
@@ -11,7 +12,7 @@ describe Kount do
     subject { Kount.new(merchant_id: '555556') }
     request = Kount::Inquiry.new
     expected = [[:MERC, '555556'],
-                [:VERS, '0710'],
+                [:VERS, '0720'],
                 [:FRMT, 'JSON']
                ]
     describe '#prepare_request' do
@@ -229,4 +230,52 @@ describe Kount do
       end
     end
   end
+
+  context 'Test Request with LBIN field' do
+    subject { Kount.new(
+      merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] ? ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] : '', 
+      key: ENV["RIS_SDK_SANDBOX_API_KEY"] ? ENV["RIS_SDK_SANDBOX_API_KEY"] : '',
+      ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
+      is_test: true,
+      endpoint: 'https://risk.test.kount.net',
+      version: 0720 ) }
+
+    request = Kount::Inquiry.new
+    cart = Kount::Cart.new()
+    cart.add_item('64 inch LCD TV', 'Electronics', 'Television', '1', '45')
+    request.add_cart(cart)
+    request.add_lbin('12345678')
+
+    describe '#Send RIS request' do
+      it 'returns response with no errors' do
+        response = Response::Resp.new(subject.get_response(request))
+        error_count = response.get_error_count
+        expect(error_count.to_i).to eq(0)
+      end
+    end
+  end
+
+  context 'Test Request without LBIN field' do
+    subject { Kount.new(
+      merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] ? ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] : '', 
+      key: ENV["RIS_SDK_SANDBOX_API_KEY"] ? ENV["RIS_SDK_SANDBOX_API_KEY"] : '',
+      ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
+      is_test: true,
+      endpoint: 'https://risk.test.kount.net',
+      version: 0720 ) }
+
+    request = Kount::Inquiry.new
+    cart = Kount::Cart.new()
+    cart.add_item('64 inch LCD TV', 'Electronics', 'Television', '1', '45')
+    request.add_cart(cart)
+
+    describe '#Send RIS request' do
+      it 'returns response with no errors' do
+        response = Response::Resp.new(subject.get_response(request))
+        error_count = response.get_error_count
+        expect(error_count.to_i).to eq(0)
+      end
+    end
+  end
+
 end
