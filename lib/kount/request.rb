@@ -35,5 +35,12 @@ module Kount
       # subclass prepare_params methods.
       params.merge!(VERS: version, MERC: merchant_id, FRMT: response_format)
     end
+
+    # Add LBIN to request
+    # Supports BIN lengths of 6 digits or greater
+    # @param lbin [String] Long Bank Identification Number
+    def add_lbin(lbin)
+      params.merge!(LBIN: lbin)
+    end
   end
 end
