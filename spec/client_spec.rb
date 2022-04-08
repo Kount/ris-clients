@@ -1,6 +1,24 @@
 require 'spec_helper'
 require 'base64'
 
+def createKount
+  return Kount.new(
+    merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] ? ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] : '', 
+    key: ENV["RIS_SDK_SANDBOX_API_KEY"] ? ENV["RIS_SDK_SANDBOX_API_KEY"] : '',
+    ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
+    is_test: true,
+    endpoint: 'https://risk.test.kount.net',
+    version: 0720 )
+end
+
+def createInquiryWithOneCart
+  request = Kount::Inquiry.new
+  cart = Kount::Cart.new()
+  cart.add_item('Item1', 'Type1', 'Description1', '1', '1001')
+  request.add_cart(cart)
+  return request
+end
+
 # The point of this suite is to test the *preparation* of the RIS call. It is
 # not to validate the behaviour of RIS itself. For that type of test, refer
 # to the RIS project.
@@ -232,23 +250,13 @@ describe Kount do
   end
 
   context 'Test Request with LBIN field' do
-    subject { Kount.new(
-      merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] ? ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] : '', 
-      key: ENV["RIS_SDK_SANDBOX_API_KEY"] ? ENV["RIS_SDK_SANDBOX_API_KEY"] : '',
-      ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
-      is_test: true,
-      endpoint: 'https://risk.test.kount.net',
-      version: 0720 ) }
+    subject = createKount
+    requestWithLbin = createInquiryWithOneCart
+    requestWithLbin.add_lbin('12345678')
 
-    request = Kount::Inquiry.new
-    cart = Kount::Cart.new()
-    cart.add_item('64 inch LCD TV', 'Electronics', 'Television', '1', '45')
-    request.add_cart(cart)
-    request.add_lbin('12345678')
-
-    describe '#Send RIS request' do
+    describe '#Send RIS request with LBIN field' do
       it 'returns response with no errors' do
-        response = Response::Resp.new(subject.get_response(request))
+        response = Response::Resp.new(subject.get_response(requestWithLbin))
         error_count = response.get_error_count
         expect(error_count.to_i).to eq(0)
       end
@@ -256,22 +264,12 @@ describe Kount do
   end
 
   context 'Test Request without LBIN field' do
-    subject { Kount.new(
-      merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] ? ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] : '', 
-      key: ENV["RIS_SDK_SANDBOX_API_KEY"] ? ENV["RIS_SDK_SANDBOX_API_KEY"] : '',
-      ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
-      is_test: true,
-      endpoint: 'https://risk.test.kount.net',
-      version: 0720 ) }
+    subject = createKount
+    requestWithoutLbin = createInquiryWithOneCart
 
-    request = Kount::Inquiry.new
-    cart = Kount::Cart.new()
-    cart.add_item('64 inch LCD TV', 'Electronics', 'Television', '1', '45')
-    request.add_cart(cart)
-
-    describe '#Send RIS request' do
+    describe '#Send RIS request without LBIN field' do
       it 'returns response with no errors' do
-        response = Response::Resp.new(subject.get_response(request))
+        response = Response::Resp.new(subject.get_response(requestWithoutLbin))
         error_count = response.get_error_count
         expect(error_count.to_i).to eq(0)
       end
