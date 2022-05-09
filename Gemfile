@@ -4,7 +4,8 @@ gem 'rake', '>= 10.1'
 
 group :test do
   gem 'rspec', '>= 3'
-  gem 'simplecov', '>= 0.7'
+  gem 'simplecov', '~> 0.20.0'
+  gem 'simplecov-json', '~> 0.2'
   gem 'webmock', '>= 1.13'
   gem 'rest-client', '>= 1.8'
   gem 'Ascii85', '>=1.0.3'
