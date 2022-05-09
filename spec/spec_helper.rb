@@ -1,3 +1,9 @@
+require 'simplecov'
+require 'simplecov-json'
+
+SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
+SimpleCov.start
+
 require 'kount'
 require 'kount/security_mash'
 require 'kount/request'

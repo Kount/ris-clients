@@ -4,7 +4,7 @@ include:
       - base/sq-scan.yml
       - version.yml
       - core/rules.yml
-    ref: 2.5.2
+    ref: 2.6.2
 
 stages:
   - version
@@ -40,16 +40,21 @@ test:
   extends: .ruby
   script:
     - bundle exec rake test
+    - ruby -rjson -e 'sqube = JSON.load(File.read("coverage/.resultset.json"))["RSpec"]["coverage"].transform_values {|lines| lines["lines"]}; total = { "RSpec" => { "coverage" => sqube, "timestamp" => Time.now.to_i }}; puts JSON.dump(total)' > coverage/.resultset.sq.json
   rules:
     - !reference [.rule-on-tag]
     - !reference [.rule-on-master]
     - !reference [.rule-on-mr]
+  artifacts:
+    paths:
+      - ${CI_PROJECT_DIR}/coverage/.resultset.sq.json
 
 sonarqube scan:
   extends: .sq-scan
   stage: sonarqube scan
   variables:
     SRC_EXCLUSIONS: "**/build/**,**/spec/**,**/vendor/**,**/DS_Store/**,**/idea/**,**/*LICENSE,**/*.gitignore,**/*.yml,**/*.lock"
+    RUBY_TEST_COVERAGE_REPORT_PATHS: "${CI_PROJECT_DIR}/coverage/.resultset.sq.json"
     
 # The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
 lint:
