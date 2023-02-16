@@ -5,7 +5,6 @@ module Response
   class Resp
     def initialize(paramlist)
       @paramlist = paramlist
-      puts @paramlist
     end
 
     def get_mode
