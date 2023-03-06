@@ -327,14 +327,15 @@ module Response
       @paramlist['ERROR_COUNT'].to_s
     end
 
-    def geterrors
+    def get_errors
       errors = []
-      error_count = get_error_count
-      (0..error_count.to_i - 1).each do |i|
-        errors = @paramlist["ERROR_#{i}"]
+      error_count = get_error_count.to_i
+      (0..error_count - 1).each do |i|
+        errors << @paramlist["ERROR_#{i}"]
       end
       errors.compact
     end
+    alias geterrors get_errors
 
     def get_numbercounters_triggered
       # changed due to rubocop styling rules for ruby
