@@ -4,7 +4,7 @@ include:
       - base/sq-scan.yml
       - version.yml
       - core/rules.yml
-    ref: 2.6.2
+    ref: 2.16.0
 
 stages:
   - version
