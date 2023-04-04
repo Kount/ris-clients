@@ -3,50 +3,48 @@ module Kount
   # Convenience class to provide a list of PTYP values
   class PaymentTypes
     # Credit card (VISA, MasterCard, Amercian Express, etc)
-    CREDIT_CARD   = 'CARD'
+    CREDIT_CARD               = 'CARD'
     #Generic Token
-    TOKEN   = 'TOKEN'
+    TOKEN                     = 'TOKEN'
     # PayPal
-    PAYPAL        = 'PYPL'
+    PAYPAL                    = 'PYPL'
     # Check
-    CHECK         = 'CHEK'
+    CHECK                     = 'CHEK'
     # Merchant issued gift card (not the ones with VISA/MC on them)
-    GIFT_CARD     = 'GIFT'
+    GIFT_CARD                 = 'GIFT'
     # Carte Bleue
-    CARTE_BLEUE   = 'CARTE_BLEUE'
+    CARTE_BLEUE               = 'CARTE_BLEUE'
     # Sofort
-    SOFORT        = 'SOFORT'
+    SOFORT                    = 'SOFORT'
     # Elv
-    ELV           = 'ELV'
+    ELV                       = 'ELV'
     # Poli
-    POLI          = 'POLI'
+    POLI                      = 'POLI'
     # Neteller
-    NETELLER      = 'NETELLER'
+    NETELLER                  = 'NETELLER'
     # Giropay
-    GIROPAY       = 'GIROPAY'
+    GIROPAY                   = 'GIROPAY'
     # BPay
-    BPAY          = 'BPAY'
+    BPAY                      = 'BPAY'
     # Interac
-    INTERAC       = 'INTERAC'
+    INTERAC                   = 'INTERAC'
     # Apple Pay
-    APPLE_PAY     = 'APAY'
+    APPLE_PAY                 = 'APAY'
     # Skrill
-    SKRILL        = 'SKRILL'
+    SKRILL                    = 'SKRILL'
     # Moneybooker (basically another name for Skrill)
-    MONEYBOOKERS  = 'SKRILL'
+    MONEYBOOKERS              = 'SKRILL'
     # Mercado Pago
-    MERCADO_PAGO  = 'MERCADE_PAGO'
+    MERCADO_PAGO              = 'MERCADE_PAGO'
     # Bill Me Later
-    BILL_ME_LATER = 'BLML'
+    BILL_ME_LATER             = 'BLML'
     # Google Checkout
-    GOOGLE_CHECKOUT = 'GOOG'
+    GOOGLE_CHECKOUT           = 'GOOG'
     # Green Dot Money Pack
-    GREEN_DOT_MONEY_PACK  =	'GDMP'
+    GREEN_DOT_MONEY_PACK      =	'GDMP'
     # Single Euro Payments Area
     SINGLE_EURO_PAYMENTS_AREA	=	'SEPA'
     # None
-    NONE          = 'NONE'
-    # Other
-    OTHER         = 'OTHER'
+    NONE                      = 'NONE'
   end
 end

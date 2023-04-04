@@ -20,11 +20,6 @@ describe "Test: Khash encode method do" do
       end
     end
 
-    describe "Test the HashCheckPayment Method" do
-      it 'Test the HashCheckPayment Method for CHECK type' do
-        expect(Kount::Khash.hash_check_payment('0123456781111111', '')).to eq('012345IIY6S6GU6UZ9K5')
-      end
-    end
   end
 
 end

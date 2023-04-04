@@ -4,14 +4,17 @@ include:
       - base/sq-scan.yml
       - version.yml
       - core/rules.yml
-    ref: 2.16.0
+      # - fod.yml
+    ref: 2.18.1
 
 stages:
   - version
-  - test
+  - build and validate
   - sonarqube scan
-  - lint
-  - build and deploy
+  - publish
+
+variables:
+  FORTIFY_RELEASE_ID: "784315"
 
 .ruby:
   image: ruby:3.0
@@ -36,7 +39,7 @@ stages:
       fi
 
 test:
-  stage: test
+  stage: build and validate
   extends: .ruby
   script:
     - bundle exec rake test
@@ -58,7 +61,7 @@ sonarqube scan:
     
 # The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
 lint:
-  stage: lint
+  stage: build and validate
   extends: .ruby
   rules:
     - !reference [.rule-on-tag]
@@ -67,10 +70,8 @@ lint:
   script:
     - rubocop
 
-
-
 build and deploy:
-  stage: build and deploy
+  stage: publish
   extends: .ruby
   rules: 
     - !reference [.rule-on-tag]
@@ -79,4 +80,3 @@ build and deploy:
   artifacts:
     paths:
       - "*.gem"
-
