@@ -1,4 +1,3 @@
-require 'kount/security_mash'
 module Kount
   ##
   # This class acts as an abstract class for each type of request.
@@ -37,9 +36,11 @@ module Kount
     end
 
     # Add LBIN to request
+    # <b>DEPRECATED:</b> Please provide <tt>in the request constructor hash param</tt> instead.
     # Supports BIN lengths of 6 digits or greater
     # @param lbin [String] Long Bank Identification Number
     def add_lbin(lbin)
+      warn "[DEPRECATION] LBIN should be provided in the constructor hash instead"
       params.merge!(LBIN: lbin)
     end
   end

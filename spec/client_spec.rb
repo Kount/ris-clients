@@ -2,21 +2,22 @@ require 'spec_helper'
 require 'base64'
 
 def createKount
-  return Kount.new(
-    merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] ? ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] : '', 
-    key: ENV["RIS_SDK_SANDBOX_API_KEY"] ? ENV["RIS_SDK_SANDBOX_API_KEY"] : '',
+  Kount.new(
+    merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] || '', 
+    key: ENV["RIS_SDK_SANDBOX_API_KEY"] || '',
     ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
     is_test: true,
     endpoint: 'https://risk.test.kount.net',
-    version: 0720 )
+    version: 0720
+  )
 end
 
 def createInquiryWithOneCart
   request = Kount::Inquiry.new
-  cart = Kount::Cart.new()
+  cart = Kount::Cart.new
   cart.add_item('Item1', 'Type1', 'Description1', '1', '1001')
   request.add_cart(cart)
-  return request
+  request
 end
 
 # The point of this suite is to test the *preparation* of the RIS call. It is
@@ -84,8 +85,8 @@ describe Kount do
     request = Kount::Inquiry.new
     request.add_payment('PYPL', 'N71033SDGKN87671500967')
     expected = [[:PTYP, 'PYPL'],
-                [:PTOK, 'N71033SDGKN87671500967'], # Using public salt
-                [:PENC, 'NONE']
+                [:PTOK, 'N71033MHNATKQ7N2RWSX'], # Using public salt
+                [:PENC, 'KHASH']
                ]
     describe '#prepare_request' do
       it 'returns the prepared request for PayPal data' do

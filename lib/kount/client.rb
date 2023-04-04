@@ -1,4 +1,3 @@
-require 'kount/security_mash'
 require 'kount/cart'
 require 'kount/request'
 require 'kount/request/update'
