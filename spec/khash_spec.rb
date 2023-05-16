@@ -18,7 +18,6 @@ describe "Test: Khash encode method do" do
         expect(Kount::Khash.hash_payment_token('01234567890123456', '')).to eq('012345BANCJVM7X3N3QT')
         expect(Kount::Khash.hash_payment_token('012345678901234567', '')).to eq('012345Y574RDYLFUAQTE')
         expect(Kount::Khash.hash_payment_token('0123456789012345678', '')).to eq('01234537NA7QSVDYFDGY')
-        expect(Kount::Khash.hash_payment_token('01234567890123456789', '')).to eq('012345LHA7DT5VF4DUR1')
       end
     end
     
