@@ -38,10 +38,12 @@ module Kount
 
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def fixup_payment_params(ksalt, merchant_id)
-      return if params.key?(:PENC)
-
       case params[:PTYP]
-      when 'CARD', 'CHEK', 'PYPL'
+      when 'CARD'
+        return if params[:PENC] == 'MASK'
+        ptok = Kount::Khash.hash_payment_token(params[:PTOK], ksalt)
+        params.merge!(PTOK: ptok, PENC: 'KHASH')
+      when 'CHEK', 'PYPL'
         ptok = Kount::Khash.hash_payment_token(params[:PTOK], ksalt)
         params.merge!(PTOK: ptok, PENC: 'KHASH')
       when 'GIFT' 
