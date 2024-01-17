@@ -7,7 +7,6 @@ group :test do
   gem 'simplecov', '~> 0.20.0'
   gem 'simplecov-json', '~> 0.2'
   gem 'webmock', '>= 1.13'
-  gem 'rest-client', '>= 1.8'
   gem 'Ascii85', '>=1.0.3'
   gem 'rubocop', '>=0.74.0'
   gem 'rubocop-rspec', '>=1.35.0'
