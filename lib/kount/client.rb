@@ -2,9 +2,9 @@ require 'kount/cart'
 require 'kount/request'
 require 'kount/request/update'
 require 'kount/request/inquiry'
-require 'rest-client'
 require 'uri'
 require 'kount/utils/khash'
+require 'net/https'
 
 
 module Kount
@@ -62,14 +62,10 @@ module Kount
     # @param request [Kount::Request] Kount inquiry or update object
     # @return [Hash] RIS response formatted into a native hash
     def get_response(request)
-      params = prepare_request_params(request)
+      payload = URI.encode_www_form(prepare_request_params(request))
       response = {}
       begin
-        response = RestClient::Resource.new(
-          endpoint,
-          verify_ssl: verify_ssl_option, timeout: timeout
-        ).post params, x_kount_api_key: key
-
+        response = http.post(http_path, payload, http_headers).body
         JSON.parse(response)
       rescue StandardError
         # RIS errors do not come back as JSON, so just pass them along raw.
@@ -120,13 +116,32 @@ module Kount
 
     private
 
-    # Helper method to turn on/off the SSL cert verify based on is_test config
-    def verify_ssl_option
-      if test?
-        OpenSSL::SSL::VERIFY_NONE
-      else
-        OpenSSL::SSL::VERIFY_PEER
+    def endpoint_uri
+      @endpoint_uri ||= URI(endpoint)
+    end
+
+    def http
+      net_http = Net::HTTP.new(endpoint_uri.host, endpoint_uri.port)
+      if endpoint_uri.scheme == 'https'
+        net_http.use_ssl = true
+        net_http.verify_mode = test? ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
       end
+      net_http.open_timeout = timeout
+      net_http.read_timeout = timeout
+      net_http
+    end
+
+    def http_headers
+      {
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => "SDK-RIS-Ruby/#{Config::SDK_VERSION}",
+        'X-Kount-Api-Key' => key
+      }
+    end
+
+    def http_path
+      endpoint_uri.path.empty? ? '/' : endpoint_uri.path
     end
   end
 end
