@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/kount_complete'
   s.license     = 'MIT'
 
-  s.required_rubygems_version = '>= 1.3.5'
+  s.required_rubygems_version = '>= 3.6.2'
 
-  s.required_ruby_version = '>= 2.3'
+  s.required_ruby_version = '>= 3.2.7'
 
 end

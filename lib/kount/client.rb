@@ -1,3 +1,4 @@
+require 'date'
 require 'kount/cart'
 require 'kount/request'
 require 'kount/request/update'
@@ -25,9 +26,28 @@ module Kount
     # Default endpoint for test. Used by the TEST_DEFAULT_OPTIONS
     ENDPOINT_TEST = 'https://risk.test.kount.net'
 
+    # Default endpoint for Payments Fraud by Kount 360 production. Used by the DEFAULT_OPTIONS
+    PAYMENTS_FRAUD_API_ENDPOINT_PROD = 'https://api.kount.com/commerce/ris'
+
+    # Default endpoint for Payments Fraud by Kount 360 test. Used by the TEST_DEFAULT_OPTIONS
+    PAYMENTS_FRAUD_API_ENDPOINT_TEST = 'https://api-sandbox.kount.com/commerce/ris'
+
+    # Default endpoint for Payments Fraud by Kount 360 production. Used by the DEFAULT_OPTIONS
+    PAYMENTS_FRAUD_AUTH_ENDPOINT_PROD = 'https://login.kount.com/oauth2/ausdppksgrbyM0abp357/v1/token'
+
+    # Default endpoint for Payments Fraud by Kount 360 test. Used by the TEST_DEFAULT_OPTIONS
+    PAYMENTS_FRAUD_AUTH_ENDPOINT_TEST = 'https://login.kount.com/oauth2/ausdppkujzCPQuIrY357/v1/token'
+
+    # Migration mode enabled
+    @migration_mode_enabled = false
+    @access_token = ''
+    @token_expires_at = DateTime.now
+
     # Default params for production
     PROD_DEFAULT_OPTIONS = {
       endpoint: ENDPOINT_PROD,
+      pf_api_endpoint: PAYMENTS_FRAUD_API_ENDPOINT_PROD,
+      pf_auth_endpoint: PAYMENTS_FRAUD_AUTH_ENDPOINT_PROD,
       version: DEFAULT_VERSION,
       is_test: false,
       timeout: 10
@@ -36,6 +56,8 @@ module Kount
     # Default params for test if is_test is TRUE
     TEST_DEFAULT_OPTIONS = {
       endpoint: ENDPOINT_TEST,
+      pf_api_endpoint: PAYMENTS_FRAUD_API_ENDPOINT_TEST,
+      pf_auth_endpoint: PAYMENTS_FRAUD_AUTH_ENDPOINT_TEST,
       version: DEFAULT_VERSION,
       timeout: 10
     }
@@ -49,25 +71,53 @@ module Kount
     # other optional params
     def initialize(params = {})
       @options = {}
+      migration_mode = params[:migration_mode_enabled]
+      if migration_mode.nil?
+        @migration_mode_enabled = false
+      else
+        @migration_mode_enabled = migration_mode.to_s.downcase == 'true'
+      end
+
       if params[:is_test]
         @options.merge!(TEST_DEFAULT_OPTIONS)
       else
         @options.merge!(PROD_DEFAULT_OPTIONS)
       end
+
       @options.merge!(params)
+
+      if @migration_mode_enabled
+        @options[:version] = DEFAULT_VERSION # this is needed for the intg to work correctly
+      end
     end
 
     # Makes the call to the Kount RIS server
     #
     # @param request [Kount::Request] Kount inquiry or update object
     # @return [Hash] RIS response formatted into a native hash
+    # rubocop:disable Metrics/AbcSize
     def get_response(request)
+      headers = {}
+      if @migration_mode_enabled
+        if @token_expires_at.nil? || DateTime.now >= @token_expires_at
+          refresh_pf_auth_token
+          if @access_token.nil? || @access_token == ''
+            raise RuntimeError, 'Access token could not be retrieved'
+          end
+          headers = pf_http_headers
+          headers.merge!({ 'Authorization': "Bearer #{@access_token}" })
+        end
+      else
+        headers = http_headers
+      end
+
       payload = URI.encode_www_form(prepare_request_params(request))
       response = {}
       begin
-        response = http.post(http_path, payload, http_headers).body
-        JSON.parse(response)
-      rescue StandardError
+        resp = http.post(http_path, payload, headers)
+        response = JSON.parse(resp.body)
+      rescue StandardError => e
+        puts e
         # RIS errors do not come back as JSON, so just pass them along raw.
         response
       end
@@ -81,6 +131,9 @@ module Kount
 
     # Kount Merchant ID
     def merchant_id
+      if @migration_mode_enabled
+        return @options[:pf_client_id]
+      end
       @options[:merchant_id]
     end
 
@@ -91,6 +144,9 @@ module Kount
 
     # RIS Endpoint URL
     def endpoint
+      if @migration_mode_enabled
+        return @options[:pf_api_endpoint]
+      end
       @options[:endpoint]
     end
 
@@ -99,7 +155,7 @@ module Kount
       @options[:timeout]
     end
 
-    # Merchant API for RIS acess
+    # Merchant API for RIS access
     def key
       @options[:key]
     end
@@ -120,14 +176,20 @@ module Kount
       @endpoint_uri ||= URI(endpoint)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def http
+      if endpoint_uri.host.nil? || endpoint_uri.port.nil?
+        raise ArgumentError, 'Invalid endpoint or port'
+      end
       net_http = Net::HTTP.new(endpoint_uri.host, endpoint_uri.port)
       if endpoint_uri.scheme == 'https'
         net_http.use_ssl = true
         net_http.verify_mode = test? ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+        OpenSSL::SSL::SSLContext::DEFAULT_PARAMS[:options] |= OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF
       end
       net_http.open_timeout = timeout
       net_http.read_timeout = timeout
+      net_http.ignore_eof = true
       net_http
     end
 
@@ -138,6 +200,33 @@ module Kount
         'User-Agent' => "SDK-RIS-Ruby/#{Config::SDK_VERSION}",
         'X-Kount-Api-Key' => key
       }
+    end
+
+    def pf_http_headers
+      {
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => "SDK-RIS-Ruby/#{Config::SDK_VERSION}",
+        'Authorization' => 'Bearer '
+      }
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def refresh_pf_auth_token
+      payload = URI.encode_www_form({ grant_type: 'client_credentials', scope: 'k1_integration_api' })
+      headers = { Authorization: "Basic #{@options[:pf_api_key]}", 'Content-Type': 'application/x-www-form-urlencoded' }
+      uri = URI(@options[:pf_auth_endpoint])
+      client = Net::HTTP.new(uri.host, uri.port)
+      client.ignore_eof = true
+      client.use_ssl = true
+      response = client.post(@options[:pf_auth_endpoint],  payload, headers)
+
+      return unless response.code == '200'
+
+      data = JSON.parse(response.body)
+      expires_in = data['expires_in'].to_i
+      @access_token = data['access_token']
+      @token_expires_at = DateTime.now.to_time + (expires_in - 60) # less 60 seconds for latency
     end
 
     def http_path
