@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'base64'
 
-def createKount
+def create_kount
   Kount.new(
     merchant_id: ENV["RIS_SDK_SANDBOX_MERCHANT_ID"] || '', 
     key: ENV["RIS_SDK_SANDBOX_API_KEY"] || '',
@@ -12,7 +12,7 @@ def createKount
   )
 end
 
-def createInquiryWithOneCart
+def create_inquiry_with_one_cart
   request = Kount::Inquiry.new
   cart = Kount::Cart.new
   cart.add_item('Item1', 'Type1', 'Description1', '1', '1001')
@@ -251,13 +251,13 @@ describe Kount do
   end
 
   context 'Test Request with LBIN field' do
-    subject = createKount
-    requestWithLbin = createInquiryWithOneCart
-    requestWithLbin.add_lbin('12345678')
+    subject = create_kount
+    request_with_lbin = create_inquiry_with_one_cart
+    request_with_lbin.add_lbin('12345678')
 
     describe '#Send RIS request with LBIN field' do
       it 'returns response with no errors' do
-        response = Response::Resp.new(subject.get_response(requestWithLbin))
+        response = Response::Resp.new(subject.get_response(request_with_lbin))
         error_count = response.get_error_count
         expect(error_count.to_i).to eq(0)
       end
@@ -265,12 +265,12 @@ describe Kount do
   end
 
   context 'Test Request without LBIN field' do
-    subject = createKount
-    requestWithoutLbin = createInquiryWithOneCart
+    subject = create_kount
+    request_without_lbin = create_inquiry_with_one_cart
 
     describe '#Send RIS request without LBIN field' do
       it 'returns response with no errors' do
-        response = Response::Resp.new(subject.get_response(requestWithoutLbin))
+        response = Response::Resp.new(subject.get_response(request_without_lbin))
         error_count = response.get_error_count
         expect(error_count.to_i).to eq(0)
       end

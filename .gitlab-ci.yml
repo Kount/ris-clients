@@ -17,11 +17,14 @@ variables:
   FORTIFY_RELEASE_ID: "784315"
 
 .ruby:
-  image: ruby:3.0
+  image: ruby:3.2.7
   before_script:
     - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
     - ruby -v
     - which ruby
+    - gem install rubygems-update
+    - update_rubygems
+    - gem update --system
     - gem install bundler --no-document
     - bundle install
     - mkdir ~/.gem
@@ -60,7 +63,8 @@ sonarqube scan:
     RUBY_TEST_COVERAGE_REPORT_PATHS: "${CI_PROJECT_DIR}/coverage/.resultset.sq.json"
     
 # The purpose of Below test stage is to approve merger request (As It's mentioned in required approval - pipeline need to be pass for approve the Merge request)
-lint:
+# this was getting cyclical we need to find a better configuration
+.lint:
   stage: build and validate
   extends: .ruby
   rules:
