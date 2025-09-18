@@ -36,7 +36,7 @@ module Kount
     PAYMENTS_FRAUD_AUTH_ENDPOINT_PROD = 'https://login.kount.com/oauth2/ausdppksgrbyM0abp357/v1/token'
 
     # Default endpoint for Payments Fraud by Kount 360 test. Used by the TEST_DEFAULT_OPTIONS
-    PAYMENTS_FRAUD_AUTH_ENDPOINT_TEST = 'https://login.kount.com/oauth2/ausdppksgrbyM0abp357/v1/token'
+    PAYMENTS_FRAUD_AUTH_ENDPOINT_TEST = 'https://login.kount.com/oauth2/ausdppkujzCPQuIrY357/v1/token'
 
     # Default params for production
     PROD_DEFAULT_OPTIONS = {
@@ -195,7 +195,7 @@ module Kount
       if endpoint_uri.host.nil? || endpoint_uri.port.nil?
         raise ArgumentError, 'Invalid endpoint or port'
       end
-      net_http = Net::HTTP.new(endpoint_uri.host, endpoint_uri.port)
+      net_http = Net::HTTP.new(endpoint_uri.host.to_s, endpoint_uri.port)
       if endpoint_uri.scheme == 'https'
         net_http.use_ssl = true
         net_http.verify_mode = test? ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
