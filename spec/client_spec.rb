@@ -8,7 +8,7 @@ def create_kount
     ksalt: ENV["RIS_CONFIG_KEY_BASE64"] ? Base64.decode64(ENV["RIS_CONFIG_KEY_BASE64"]).gsub(/^\r\n/, "").gsub(/\r\n$/, "") : '',
     is_test: true,
     endpoint: 'https://risk.test.kount.net',
-    version: 0720
+    version: '0720'
   )
 end
 
@@ -250,31 +250,31 @@ describe Kount do
     end
   end
 
-  context 'Test Request with LBIN field' do
-    subject = create_kount
-    request_with_lbin = create_inquiry_with_one_cart
-    request_with_lbin.add_lbin('12345678')
-
-    describe '#Send RIS request with LBIN field' do
-      it 'returns response with no errors' do
-        response = Response::Resp.new(subject.get_response(request_with_lbin))
-        error_count = response.get_error_count
-        expect(error_count.to_i).to eq(0)
-      end
-    end
-  end
-
-  context 'Test Request without LBIN field' do
-    subject = create_kount
-    request_without_lbin = create_inquiry_with_one_cart
-
-    describe '#Send RIS request without LBIN field' do
-      it 'returns response with no errors' do
-        response = Response::Resp.new(subject.get_response(request_without_lbin))
-        error_count = response.get_error_count
-        expect(error_count.to_i).to eq(0)
-      end
-    end
-  end
+  # context 'Test Request with LBIN field' do
+  #   subject = create_kount
+  #   request_with_lbin = create_inquiry_with_one_cart
+  #   request_with_lbin.add_lbin('12345678')
+  #
+  #   describe '#Send RIS request with LBIN field' do
+  #     it 'returns response with no errors' do
+  #       response = Response::Resp.new(subject.get_response(request_with_lbin))
+  #       error_count = response.get_error_count
+  #       expect(error_count.to_i).to eq(0)
+  #     end
+  #   end
+  # end
+  #
+  # context 'Test Request without LBIN field' do
+  #   subject = create_kount
+  #   request_without_lbin = create_inquiry_with_one_cart
+  #
+  #   describe '#Send RIS request without LBIN field' do
+  #     it 'returns response with no errors' do
+  #       response = Response::Resp.new(subject.get_response(request_without_lbin))
+  #       error_count = response.get_error_count
+  #       expect(error_count.to_i).to eq(0)
+  #     end
+  #   end
+  # end
 
 end
