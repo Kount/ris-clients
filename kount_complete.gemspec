@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = 'ruby@kount.com'
   s.authors     = ["Kount"]
   s.files       = Dir.glob("lib/**/*")
-  s.homepage    = 'http://rubygems.org/gems/kount_complete'
+  s.homepage    = 'https://rubygems.org/gems/kount_complete'
   s.license     = 'MIT'
 
   s.required_rubygems_version = '>= 3.6.2'

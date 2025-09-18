@@ -8,7 +8,7 @@ module Kount
         # SDK release version
         # Set the sdk release version which will be used for git tagging in github
         # This will be set by the build process
-        SDK_VERSION = '3.0.0'
+        SDK_VERSION = '3.0.1'
 
     end
 end

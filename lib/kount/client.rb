@@ -36,12 +36,7 @@ module Kount
     PAYMENTS_FRAUD_AUTH_ENDPOINT_PROD = 'https://login.kount.com/oauth2/ausdppksgrbyM0abp357/v1/token'
 
     # Default endpoint for Payments Fraud by Kount 360 test. Used by the TEST_DEFAULT_OPTIONS
-    PAYMENTS_FRAUD_AUTH_ENDPOINT_TEST = 'https://login.kount.com/oauth2/ausdppkujzCPQuIrY357/v1/token'
-
-    # Migration mode enabled
-    @migration_mode_enabled = false
-    @access_token = ''
-    @token_expires_at = DateTime.now
+    PAYMENTS_FRAUD_AUTH_ENDPOINT_TEST = 'https://login.kount.com/oauth2/ausdppksgrbyM0abp357/v1/token'
 
     # Default params for production
     PROD_DEFAULT_OPTIONS = {
@@ -70,6 +65,13 @@ module Kount
     # @param params [Hash] Hash with merchant_id, ksalt and key, plus any
     # other optional params
     def initialize(params = {})
+      # Migration mode enabled
+      @migration_mode_enabled = false
+      @access_token = ''
+      @token_expires_at = Time.now - 3600 # set to one hour ago to force refresh on first use
+      @access_token_mutex = Mutex.new
+      @token_expires_at_mutex = Mutex.new
+
       @options = {}
       migration_mode = params[:migration_mode_enabled]
       if migration_mode.nil?
@@ -85,10 +87,22 @@ module Kount
       end
 
       @options.merge!(params)
+    end
 
-      if @migration_mode_enabled
-        @options[:version] = DEFAULT_VERSION # this is needed for the intg to work correctly
-      end
+    def access_token
+      @access_token_mutex.synchronize { @access_token }
+    end
+
+    def set_access_token(token)
+      @access_token_mutex.synchronize { @access_token = token }
+    end
+
+    def token_expires_at
+      @token_expires_at_mutex.synchronize { @token_expires_at }
+    end
+
+    def set_token_expires_at(token)
+      @token_expires_at_mutex.synchronize { @token_expires_at = token }
     end
 
     # Makes the call to the Kount RIS server
@@ -99,13 +113,13 @@ module Kount
     def get_response(request)
       headers = {}
       if @migration_mode_enabled
-        if @token_expires_at.nil? || DateTime.now >= @token_expires_at
+        if token_expires_at.nil? || Time.now >= token_expires_at
           refresh_pf_auth_token
-          if @access_token.nil? || @access_token == ''
+          if access_token.nil? || access_token == ''
             raise RuntimeError, 'Access token could not be retrieved'
           end
           headers = pf_http_headers
-          headers.merge!({ 'Authorization': "Bearer #{@access_token}" })
+          headers.merge!({ 'Authorization' => "Bearer #{access_token}" })
         end
       else
         headers = http_headers
@@ -114,7 +128,7 @@ module Kount
       payload = URI.encode_www_form(prepare_request_params(request))
       response = {}
       begin
-        resp = http.post(http_path, payload, headers)
+        resp = http.post(http_path.to_s, payload, headers)
         response = JSON.parse(resp.body)
       rescue StandardError => e
         puts e
@@ -207,30 +221,29 @@ module Kount
         'Accept' => 'application/json',
         'Content-Type' => 'application/x-www-form-urlencoded',
         'User-Agent' => "SDK-RIS-Ruby/#{Config::SDK_VERSION}",
-        'Authorization' => 'Bearer '
       }
     end
 
     # rubocop:disable Metrics/AbcSize
     def refresh_pf_auth_token
-      payload = URI.encode_www_form({ grant_type: 'client_credentials', scope: 'k1_integration_api' })
+      payload = URI.encode_www_form({ grant_type: 'client_credentials', scope: 'k1_integration_api'})
       headers = { Authorization: "Basic #{@options[:pf_api_key]}", 'Content-Type': 'application/x-www-form-urlencoded' }
       uri = URI(@options[:pf_auth_endpoint])
-      client = Net::HTTP.new(uri.host, uri.port)
+      client = Net::HTTP.new(uri.host.to_s, uri.port)
       client.ignore_eof = true
       client.use_ssl = true
-      response = client.post(@options[:pf_auth_endpoint],  payload, headers)
+      response = client.post(uri.path.to_s, payload, headers)
 
       return unless response.code == '200'
 
       data = JSON.parse(response.body)
       expires_in = data['expires_in'].to_i
-      @access_token = data['access_token']
-      @token_expires_at = DateTime.now.to_time + (expires_in - 60) # less 60 seconds for latency
+      set_access_token(data['access_token'])
+      set_token_expires_at(Time.now + (expires_in - 60)) # less 60 seconds for latency
     end
 
     def http_path
-      endpoint_uri.path.empty? ? '/' : endpoint_uri.path
+      endpoint_uri.path.to_s.empty? ? '/' : endpoint_uri.path
     end
   end
 end
