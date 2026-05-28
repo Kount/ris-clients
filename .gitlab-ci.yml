@@ -5,7 +5,7 @@ include:
       - version.yml
       - core/rules.yml
       # - fod.yml
-    ref: 2.18.1
+    ref: 3.18.3
 
 stages:
   - version
